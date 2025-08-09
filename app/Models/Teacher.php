@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\LogsActivity;
 
 class Teacher extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'teacher_id',
@@ -20,22 +21,23 @@ class Teacher extends Model
         'address',
         'contact_number',
         'email',
+        'emergency_contact',
         'position',
         'department',
         'hire_date',
-        'status',
-        'emergency_contact',
-        'qualifications'
+        'employment_status',
+        'salary',
+        'qualifications',
+        'certifications'
     ];
 
     protected $casts = [
         'birth_date' => 'date',
         'hire_date' => 'date',
+        'salary' => 'decimal:2',
     ];
 
-    /**
-     * Get the teacher's full name.
-     */
+    // Accessor for full name
     public function getFullNameAttribute()
     {
         $name = $this->first_name;

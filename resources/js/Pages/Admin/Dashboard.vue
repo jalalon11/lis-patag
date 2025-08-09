@@ -3,17 +3,20 @@
     <!-- Welcome Section -->
     <div class="row mb-4">
       <div class="col-12">
-        <div class="card border-0 bg-primary text-white">
-          <div class="card-body">
+        <div class="card border-0 shadow-lg bg-gradient-primary text-white">
+          <div class="card-body py-4">
             <div class="row align-items-center">
               <div class="col-md-8">
-                <h3 class="card-title mb-2">Welcome back, {{ $page.props.auth.user.name }}!</h3>
-                <p class="card-text mb-0">
+                <h2 class="card-title mb-2 fw-bold">Welcome back, {{ $page.props.auth.user.name }}!</h2>
+                <p class="card-text mb-0 opacity-90">
                   Here's what's happening at Patag Elementary School today.
                 </p>
+                <small class="opacity-75">{{ currentDate }}</small>
               </div>
               <div class="col-md-4 text-end">
-                <i class="fas fa-school" style="font-size: 4rem; opacity: 0.3;"></i>
+                <div class="welcome-icon">
+                  <i class="fas fa-school"></i>
+                </div>
               </div>
             </div>
           </div>
@@ -24,17 +27,15 @@
     <!-- Statistics Cards -->
     <div class="row mb-4">
       <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card border-0 shadow-sm h-100 stat-card stat-card-primary">
           <div class="card-body">
-            <div class="row align-items-center">
-              <div class="col">
-                <div class="text-xs fw-bold text-primary text-uppercase mb-1">
-                  Total Students
-                </div>
-                <div class="h5 mb-0 fw-bold text-gray-800">{{ stats.totalStudents }}</div>
+            <div class="d-flex align-items-center">
+              <div class="stat-icon bg-primary-soft text-primary me-3">
+                <i class="fas fa-graduation-cap"></i>
               </div>
-              <div class="col-auto">
-                <i class="fas fa-graduation-cap fa-2x text-primary"></i>
+              <div class="flex-grow-1">
+                <div class="stat-label">Total Students</div>
+                <div class="stat-value">{{ stats.totalStudents }}</div>
               </div>
             </div>
           </div>
@@ -42,17 +43,15 @@
       </div>
 
       <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card border-0 shadow-sm h-100 stat-card stat-card-success">
           <div class="card-body">
-            <div class="row align-items-center">
-              <div class="col">
-                <div class="text-xs fw-bold text-success text-uppercase mb-1">
-                  Total Teachers
-                </div>
-                <div class="h5 mb-0 fw-bold text-gray-800">{{ stats.totalTeachers }}</div>
+            <div class="d-flex align-items-center">
+              <div class="stat-icon bg-success-soft text-success me-3">
+                <i class="fas fa-chalkboard-teacher"></i>
               </div>
-              <div class="col-auto">
-                <i class="fas fa-chalkboard-teacher fa-2x text-success"></i>
+              <div class="flex-grow-1">
+                <div class="stat-label">Total Teachers</div>
+                <div class="stat-value">{{ stats.totalTeachers }}</div>
               </div>
             </div>
           </div>
@@ -60,17 +59,15 @@
       </div>
 
       <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card border-0 shadow-sm h-100 stat-card stat-card-info">
           <div class="card-body">
-            <div class="row align-items-center">
-              <div class="col">
-                <div class="text-xs fw-bold text-warning text-uppercase mb-1">
-                  Active Sections
-                </div>
-                <div class="h5 mb-0 fw-bold text-gray-800">{{ stats.totalSections }}</div>
+            <div class="d-flex align-items-center">
+              <div class="stat-icon bg-info-soft text-info me-3">
+                <i class="fas fa-user-friends"></i>
               </div>
-              <div class="col-auto">
-                <i class="fas fa-layer-group fa-2x text-warning"></i>
+              <div class="flex-grow-1">
+                <div class="stat-label">Total Parents</div>
+                <div class="stat-value">{{ stats.totalParents }}</div>
               </div>
             </div>
           </div>
@@ -78,17 +75,15 @@
       </div>
 
       <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card border-0 shadow-sm h-100 stat-card stat-card-warning">
           <div class="card-body">
-            <div class="row align-items-center">
-              <div class="col">
-                <div class="text-xs fw-bold text-info text-uppercase mb-1">
-                  School Year
-                </div>
-                <div class="h5 mb-0 fw-bold text-gray-800">{{ stats.currentSchoolYear }}</div>
+            <div class="d-flex align-items-center">
+              <div class="stat-icon bg-warning-soft text-warning me-3">
+                <i class="fas fa-layer-group"></i>
               </div>
-              <div class="col-auto">
-                <i class="fas fa-calendar-alt fa-2x text-info"></i>
+              <div class="flex-grow-1">
+                <div class="stat-label">Active Sections</div>
+                <div class="stat-value">{{ stats.totalSections }}</div>
               </div>
             </div>
           </div>
@@ -108,19 +103,34 @@
             </h6>
           </div>
           <div class="card-body">
-            <div class="timeline">
+            <div v-if="recentActivities && recentActivities.length > 0" class="timeline">
               <div v-for="activity in recentActivities" :key="activity.id" class="timeline-item mb-3">
                 <div class="d-flex">
                   <div class="timeline-marker me-3">
                     <i :class="activity.icon" class="text-primary"></i>
                   </div>
-                  <div class="timeline-content">
-                    <h6 class="mb-1">{{ activity.title }}</h6>
-                    <p class="text-muted mb-1">{{ activity.description }}</p>
-                    <small class="text-muted">{{ activity.time }}</small>
+                  <div class="timeline-content flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div>
+                        <h6 class="mb-1 fw-bold">{{ activity.title }}</h6>
+                        <p class="text-muted mb-1">{{ activity.description }}</p>
+                      </div>
+                      <small class="text-muted">{{ activity.time }}</small>
+                    </div>
+                    <div v-if="activity.user" class="mt-1">
+                      <small class="text-primary">
+                        <i class="fas fa-user me-1"></i>
+                        {{ activity.user }}
+                      </small>
+                    </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div v-else class="text-center py-5">
+              <i class="fas fa-clock fa-3x text-muted mb-3"></i>
+              <h6 class="text-muted">No recent activities</h6>
+              <p class="text-muted mb-0">Activities will appear here as you use the system</p>
             </div>
           </div>
         </div>
@@ -136,20 +146,24 @@
             </h6>
           </div>
           <div class="card-body">
-            <div class="d-grid gap-2">
-              <Link href="/admin/admission" class="btn btn-outline-primary">
+            <div class="d-grid gap-3">
+              <Link href="/admin/admission" class="btn btn-outline-primary btn-lg quick-action-btn">
                 <i class="fas fa-user-plus me-2"></i>
                 New Student Admission
               </Link>
-              <Link href="/admin/teachers/create" class="btn btn-outline-success">
+              <Link href="/admin/teachers/create" class="btn btn-outline-success btn-lg quick-action-btn">
                 <i class="fas fa-chalkboard-teacher me-2"></i>
                 Add Teacher
               </Link>
-              <Link href="/admin/subjects/create" class="btn btn-outline-warning">
+              <Link href="/admin/parents/create" class="btn btn-outline-info btn-lg quick-action-btn">
+                <i class="fas fa-user-friends me-2"></i>
+                Add Parent/Guardian
+              </Link>
+              <Link href="/admin/subjects/create" class="btn btn-outline-warning btn-lg quick-action-btn">
                 <i class="fas fa-book-open me-2"></i>
                 Add Subject
               </Link>
-              <Link href="/admin/reports/sf1" class="btn btn-outline-info">
+              <Link href="/admin/reports/sf1" class="btn btn-outline-secondary btn-lg quick-action-btn">
                 <i class="fas fa-file-alt me-2"></i>
                 Generate SF1 Report
               </Link>
@@ -208,36 +222,28 @@ export default {
       default: () => ({
         totalStudents: 0,
         totalTeachers: 0,
+        totalParents: 0,
         totalSections: 0,
         currentSchoolYear: '2024-2025'
+      })
+    },
+    recentActivities: {
+      type: Array,
+      default: () => []
+    }
+  },
+  computed: {
+    currentDate() {
+      return new Date().toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
       })
     }
   },
   data() {
     return {
-      recentActivities: [
-        {
-          id: 1,
-          icon: 'fas fa-user-plus',
-          title: 'New Student Enrolled',
-          description: 'Juan Dela Cruz has been enrolled in Grade 1-A',
-          time: '2 hours ago'
-        },
-        {
-          id: 2,
-          icon: 'fas fa-chalkboard-teacher',
-          title: 'Teacher Account Created',
-          description: 'Maria Santos has been added as a Grade 3 teacher',
-          time: '5 hours ago'
-        },
-        {
-          id: 3,
-          icon: 'fas fa-book-open',
-          title: 'Subject Added',
-          description: 'Mathematics subject has been added to Grade 2 curriculum',
-          time: '1 day ago'
-        }
-      ],
       upcomingEvents: [
         {
           id: 1,
@@ -267,34 +273,163 @@ export default {
 </script>
 
 <style scoped>
+/* Welcome Section */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.welcome-icon {
+  font-size: 4rem;
+  opacity: 0.2;
+}
+
+/* Statistics Cards */
+.stat-card {
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.stat-card-primary {
+  border-left-color: #007bff;
+}
+
+.stat-card-success {
+  border-left-color: #28a745;
+}
+
+.stat-card-info {
+  border-left-color: #17a2b8;
+}
+
+.stat-card-warning {
+  border-left-color: #ffc107;
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3748;
+  line-height: 1;
+}
+
+/* Soft Background Colors */
+.bg-primary-soft {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.bg-success-soft {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.bg-info-soft {
+  background-color: rgba(23, 162, 184, 0.1);
+}
+
+.bg-warning-soft {
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+/* Timeline */
 .timeline-marker {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: var(--light-color);
+  background-color: rgba(0, 123, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: 2px solid #e9ecef;
 }
 
-.text-xs {
-  font-size: 0.75rem;
+.timeline-content {
+  padding-left: 1rem;
 }
 
-.card {
-  transition: transform 0.2s ease-in-out;
+.timeline-item {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f8f9fa;
 }
 
-.card:hover {
+.timeline-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Quick Actions */
+.quick-action-btn {
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  border-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.quick-action-btn:hover {
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.btn {
-  transition: all 0.2s ease-in-out;
+/* Cards */
+.card {
+  border-radius: 12px;
+  border: none;
+  transition: all 0.3s ease;
 }
 
-.btn:hover {
-  transform: translateY(-1px);
+.card-header {
+  background-color: #f8f9fa !important;
+  border-bottom: 1px solid #e9ecef;
+  border-radius: 12px 12px 0 0 !important;
+  padding: 1.25rem 1.5rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .welcome-icon {
+    font-size: 3rem;
+  }
+
+  .quick-action-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
 }
 </style>

@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Account Management
+    Route::get('teachers/all', [TeacherController::class, 'showAll'])->name('teachers.all');
     Route::resource('teachers', TeacherController::class)->parameters(['teachers' => 'teacher:id']);
     Route::resource('parents', GuardianController::class)->parameters(['parents' => 'parent']);
 

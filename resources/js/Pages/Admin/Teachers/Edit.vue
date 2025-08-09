@@ -3,37 +3,36 @@
     <div class="container-fluid py-3">
       <!-- Form Card -->
       <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
+        <div class="col-lg-8 col-md-10">
           <div class="card border-0 shadow-sm">
             <div class="card-body p-4">
               <form @submit.prevent="submit">
-                <!-- Personal Information -->
+                <!-- Basic Information -->
                 <div class="mb-4">
                   <h5 class="fw-bold text-primary mb-3">
-                    <i class="fas fa-user-circle me-1"></i> Personal Information
+                    <i class="fas fa-user-circle me-1"></i> Basic Information
                   </h5>
                   <div class="row g-3">
-                    <div class="col-12">
+                    <div class="col-md-6">
                       <div class="form-floating">
                         <input
-                          id="name"
-                          v-model="form.name"
+                          id="teacher_id"
+                          v-model="form.teacher_id"
                           type="text"
                           class="form-control"
-                          :class="{ 'is-invalid': form.errors.name }"
-                          placeholder="Full Name"
+                          :class="{ 'is-invalid': form.errors.teacher_id }"
+                          placeholder="Teacher ID"
                           required
-                          aria-describedby="nameHelp"
                         />
-                        <label for="name" class="form-label">
-                          Full Name <span class="text-danger">*</span>
+                        <label for="teacher_id" class="form-label">
+                          Teacher ID <span class="text-danger">*</span>
                         </label>
-                        <div v-if="form.errors.name" class="invalid-feedback">
-                          {{ form.errors.name }}
+                        <div v-if="form.errors.teacher_id" class="invalid-feedback">
+                          {{ form.errors.teacher_id }}
                         </div>
                       </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-md-6">
                       <div class="form-floating">
                         <input
                           id="email"
@@ -43,7 +42,6 @@
                           :class="{ 'is-invalid': form.errors.email }"
                           placeholder="Email Address"
                           required
-                          aria-describedby="emailHelp"
                         />
                         <label for="email" class="form-label">
                           Email Address <span class="text-danger">*</span>
@@ -56,69 +54,344 @@
                   </div>
                 </div>
 
-                <!-- Security Information -->
+                <!-- Personal Information -->
                 <div class="mb-4">
                   <h5 class="fw-bold text-primary mb-3">
-                    <i class="fas fa-shield-alt me-1"></i> Security Information
+                    <i class="fas fa-id-card me-1"></i> Personal Information
                   </h5>
                   <div class="row g-3">
-                    <div class="col-md-6">
-                      <div class="form-floating position-relative">
+                    <div class="col-md-4">
+                      <div class="form-floating">
                         <input
-                          id="password"
-                          v-model="form.password"
-                          :type="showPassword ? 'text' : 'password'"
+                          id="first_name"
+                          v-model="form.first_name"
+                          type="text"
                           class="form-control"
-                          :class="{ 'is-invalid': form.errors.password }"
-                          placeholder="New Password"
-                          aria-describedby="passwordHelp"
+                          :class="{ 'is-invalid': form.errors.first_name }"
+                          placeholder="First Name"
+                          required
                         />
-                        <label for="password" class="form-label">
-                          New Password <span class="text-muted">(Optional)</span>
+                        <label for="first_name" class="form-label">
+                          First Name <span class="text-danger">*</span>
                         </label>
-                        <button
-                          type="button"
-                          class="btn btn-outline-secondary btn-sm position-absolute top-50 end-0 translate-middle-y me-2"
-                          @click="togglePasswordVisibility"
-                          aria-label="Toggle password visibility"
-                        >
-                          <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-                        </button>
-                        <div v-if="form.errors.password" class="invalid-feedback">
-                          {{ form.errors.password }}
+                        <div v-if="form.errors.first_name" class="invalid-feedback">
+                          {{ form.errors.first_name }}
                         </div>
                       </div>
-                      <small class="text-muted mt-1 d-block small">
-                        Leave blank to keep current password
-                      </small>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-floating">
+                        <input
+                          id="middle_name"
+                          v-model="form.middle_name"
+                          type="text"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.middle_name }"
+                          placeholder="Middle Name"
+                        />
+                        <label for="middle_name" class="form-label">
+                          Middle Name
+                        </label>
+                        <div v-if="form.errors.middle_name" class="invalid-feedback">
+                          {{ form.errors.middle_name }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-floating">
+                        <input
+                          id="last_name"
+                          v-model="form.last_name"
+                          type="text"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.last_name }"
+                          placeholder="Last Name"
+                          required
+                        />
+                        <label for="last_name" class="form-label">
+                          Last Name <span class="text-danger">*</span>
+                        </label>
+                        <div v-if="form.errors.last_name" class="invalid-feedback">
+                          {{ form.errors.last_name }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-1">
+                      <div class="form-floating">
+                        <input
+                          id="suffix"
+                          v-model="form.suffix"
+                          type="text"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.suffix }"
+                          placeholder="Suffix"
+                        />
+                        <label for="suffix" class="form-label">
+                          Suffix
+                        </label>
+                        <div v-if="form.errors.suffix" class="invalid-feedback">
+                          {{ form.errors.suffix }}
+                        </div>
+                      </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-floating">
                         <input
-                          id="password_confirmation"
-                          v-model="form.password_confirmation"
-                          :type="showPassword ? 'text' : 'password'"
+                          id="birth_date"
+                          v-model="form.birth_date"
+                          type="date"
                           class="form-control"
-                          :class="{ 'is-invalid': form.errors.password_confirmation }"
-                          placeholder="Confirm New Password"
-                          aria-describedby="passwordConfirmHelp"
+                          :class="{ 'is-invalid': form.errors.birth_date }"
+                          required
                         />
-                        <label for="password_confirmation" class="form-label">
-                          Confirm New Password
+                        <label for="birth_date" class="form-label">
+                          Birth Date <span class="text-danger">*</span>
                         </label>
-                        <div v-if="form.errors.password_confirmation" class="invalid-feedback">
-                          {{ form.errors.password_confirmation }}
+                        <div v-if="form.errors.birth_date" class="invalid-feedback">
+                          {{ form.errors.birth_date }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <select
+                          id="gender"
+                          v-model="form.gender"
+                          class="form-select"
+                          :class="{ 'is-invalid': form.errors.gender }"
+                          required
+                        >
+                          <option value="">Select Gender</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                        </select>
+                        <label for="gender" class="form-label">
+                          Gender <span class="text-danger">*</span>
+                        </label>
+                        <div v-if="form.errors.gender" class="invalid-feedback">
+                          {{ form.errors.gender }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating">
+                        <textarea
+                          id="address"
+                          v-model="form.address"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.address }"
+                          placeholder="Address"
+                          style="height: 100px"
+                          required
+                        ></textarea>
+                        <label for="address" class="form-label">
+                          Address <span class="text-danger">*</span>
+                        </label>
+                        <div v-if="form.errors.address" class="invalid-feedback">
+                          {{ form.errors.address }}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <!-- Information Alert -->
-                <div class="alert alert-warning alert-dismissible fade show small mb-4" role="alert">
-                  <i class="fas fa-exclamation-triangle me-2"></i>
-                  Password changes will require the teacher to use new credentials at next login. Leave blank to keep unchanged.
-                  <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+                <!-- Contact Information -->
+                <div class="mb-4">
+                  <h5 class="fw-bold text-primary mb-3">
+                    <i class="fas fa-phone me-1"></i> Contact Information
+                  </h5>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input
+                          id="contact_number"
+                          v-model="form.contact_number"
+                          type="text"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.contact_number }"
+                          placeholder="Contact Number"
+                          required
+                        />
+                        <label for="contact_number" class="form-label">
+                          Contact Number <span class="text-danger">*</span>
+                        </label>
+                        <div v-if="form.errors.contact_number" class="invalid-feedback">
+                          {{ form.errors.contact_number }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input
+                          id="emergency_contact"
+                          v-model="form.emergency_contact"
+                          type="text"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.emergency_contact }"
+                          placeholder="Emergency Contact"
+                          required
+                        />
+                        <label for="emergency_contact" class="form-label">
+                          Emergency Contact <span class="text-danger">*</span>
+                        </label>
+                        <div v-if="form.errors.emergency_contact" class="invalid-feedback">
+                          {{ form.errors.emergency_contact }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Employment Information -->
+                <div class="mb-4">
+                  <h5 class="fw-bold text-primary mb-3">
+                    <i class="fas fa-briefcase me-1"></i> Employment Information
+                  </h5>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input
+                          id="position"
+                          v-model="form.position"
+                          type="text"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.position }"
+                          placeholder="Position"
+                          required
+                        />
+                        <label for="position" class="form-label">
+                          Position <span class="text-danger">*</span>
+                        </label>
+                        <div v-if="form.errors.position" class="invalid-feedback">
+                          {{ form.errors.position }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input
+                          id="department"
+                          v-model="form.department"
+                          type="text"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.department }"
+                          placeholder="Department"
+                        />
+                        <label for="department" class="form-label">
+                          Department
+                        </label>
+                        <div v-if="form.errors.department" class="invalid-feedback">
+                          {{ form.errors.department }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input
+                          id="hire_date"
+                          v-model="form.hire_date"
+                          type="date"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.hire_date }"
+                          required
+                        />
+                        <label for="hire_date" class="form-label">
+                          Hire Date <span class="text-danger">*</span>
+                        </label>
+                        <div v-if="form.errors.hire_date" class="invalid-feedback">
+                          {{ form.errors.hire_date }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <select
+                          id="employment_status"
+                          v-model="form.employment_status"
+                          class="form-select"
+                          :class="{ 'is-invalid': form.errors.employment_status }"
+                          required
+                        >
+                          <option value="">Select Status</option>
+                          <option value="Active">Active</option>
+                          <option value="Inactive">Inactive</option>
+                          <option value="Resigned">Resigned</option>
+                          <option value="Terminated">Terminated</option>
+                        </select>
+                        <label for="employment_status" class="form-label">
+                          Employment Status <span class="text-danger">*</span>
+                        </label>
+                        <div v-if="form.errors.employment_status" class="invalid-feedback">
+                          {{ form.errors.employment_status }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input
+                          id="salary"
+                          v-model="form.salary"
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.salary }"
+                          placeholder="Salary"
+                        />
+                        <label for="salary" class="form-label">
+                          Salary
+                        </label>
+                        <div v-if="form.errors.salary" class="invalid-feedback">
+                          {{ form.errors.salary }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Qualifications -->
+                <div class="mb-4">
+                  <h5 class="fw-bold text-primary mb-3">
+                    <i class="fas fa-graduation-cap me-1"></i> Qualifications
+                  </h5>
+                  <div class="row g-3">
+                    <div class="col-12">
+                      <div class="form-floating">
+                        <textarea
+                          id="qualifications"
+                          v-model="form.qualifications"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.qualifications }"
+                          placeholder="Qualifications"
+                          style="height: 100px"
+                        ></textarea>
+                        <label for="qualifications" class="form-label">
+                          Qualifications
+                        </label>
+                        <div v-if="form.errors.qualifications" class="invalid-feedback">
+                          {{ form.errors.qualifications }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-floating">
+                        <textarea
+                          id="certifications"
+                          v-model="form.certifications"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.certifications }"
+                          placeholder="Certifications"
+                          style="height: 100px"
+                        ></textarea>
+                        <label for="certifications" class="form-label">
+                          Certifications
+                        </label>
+                        <div v-if="form.errors.certifications" class="invalid-feedback">
+                          {{ form.errors.certifications }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <!-- Action Buttons -->
@@ -163,34 +436,41 @@ export default {
   },
   data() {
     return {
-      showPassword: false,
       form: useForm({
-        name: this.teacher.name,
-        email: this.teacher.email,
-        password: '',
-        password_confirmation: '',
+        teacher_id: this.teacher.teacher_id || '',
+        first_name: this.teacher.first_name || '',
+        middle_name: this.teacher.middle_name || '',
+        last_name: this.teacher.last_name || '',
+        suffix: this.teacher.suffix || '',
+        birth_date: this.teacher.birth_date || '',
+        gender: this.teacher.gender || '',
+        address: this.teacher.address || '',
+        contact_number: this.teacher.contact_number || '',
+        email: this.teacher.email || '',
+        emergency_contact: this.teacher.emergency_contact || '',
+        position: this.teacher.position || '',
+        department: this.teacher.department || '',
+        hire_date: this.teacher.hire_date || '',
+        employment_status: this.teacher.employment_status || 'Active',
+        salary: this.teacher.salary || '',
+        qualifications: this.teacher.qualifications || '',
+        certifications: this.teacher.certifications || '',
       })
     }
   },
   methods: {
     submit() {
-      const teacherName = this.form.name
+      const fullName = `${this.form.first_name} ${this.form.last_name}`
       this.form.put(`/admin/teachers/${this.teacher.id}`, {
         onSuccess: () => {
-          showSuccessToast('Teacher Updated!', `${teacherName} has been updated successfully.`)
+          showSuccessToast('Teacher Updated!', `${fullName} has been updated successfully.`)
           router.visit('/admin/teachers')
         },
         onError: (errors) => {
           const firstError = Object.values(errors)[0]
           showErrorToast('Update Failed', firstError || 'Please check the form and try again.')
-        },
-        onFinish: () => {
-          this.form.reset('password', 'password_confirmation')
         }
       })
-    },
-    togglePasswordVisibility() {
-      this.showPassword = !this.showPassword
     }
   }
 }

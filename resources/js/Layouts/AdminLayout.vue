@@ -737,6 +737,10 @@ export default {
   border-bottom: 1px solid #e9ecef;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   z-index: 1030;
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.95);
 }
 
 .navbar-container {

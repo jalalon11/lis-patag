@@ -7,7 +7,7 @@
           <i class="fas fa-user-circle me-3"></i>
           Teacher Profile
         </h2>
-        <p class="text-muted mb-0">View detailed information about {{ teacher.name }}</p>
+        <p class="text-muted mb-0">View detailed information about {{ teacher.full_name || `${teacher.first_name} ${teacher.last_name}` }}</p>
       </div>
       <div class="col-md-4 text-end">
         <div class="btn-group" role="group">
@@ -31,51 +31,154 @@
             <div class="teacher-avatar-large bg-white text-primary rounded-circle mx-auto mb-3">
               <i class="fas fa-user-tie"></i>
             </div>
-            <h5 class="mb-1">{{ teacher.name }}</h5>
-            <p class="mb-0 opacity-75">{{ teacher.email }}</p>
+            <h5 class="mb-1">{{ teacher.full_name || `${teacher.first_name} ${teacher.last_name}` }}</h5>
+            <p class="mb-0 opacity-75">{{ teacher.teacher_id }}</p>
+            <small class="opacity-75">{{ teacher.email }}</small>
           </div>
           <div class="card-body">
             <div class="info-item mb-3">
-              <label class="fw-bold text-muted small">ROLE</label>
+              <label class="fw-bold text-muted small">POSITION</label>
               <div class="mt-1">
                 <span class="badge bg-primary-soft text-primary">
-                  <i class="fas fa-chalkboard-teacher me-1"></i>
-                  Teacher
+                  <i class="fas fa-briefcase me-1"></i>
+                  {{ teacher.position }}
                 </span>
               </div>
             </div>
-            
+
+            <div class="info-item mb-3" v-if="teacher.department">
+              <label class="fw-bold text-muted small">DEPARTMENT</label>
+              <div class="mt-1 text-dark">
+                <i class="fas fa-building me-2 text-muted"></i>
+                {{ teacher.department }}
+              </div>
+            </div>
+
             <div class="info-item mb-3">
               <label class="fw-bold text-muted small">STATUS</label>
               <div class="mt-1">
-                <span class="badge bg-success-soft text-success">
-                  <i class="fas fa-check-circle me-1"></i>
-                  Active
+                <span
+                  class="badge"
+                  :class="{
+                    'bg-success-soft text-success': teacher.employment_status === 'Active',
+                    'bg-warning-soft text-warning': teacher.employment_status === 'Inactive',
+                    'bg-secondary-soft text-secondary': teacher.employment_status === 'Resigned',
+                    'bg-danger-soft text-danger': teacher.employment_status === 'Terminated'
+                  }"
+                >
+                  <i
+                    class="me-1"
+                    :class="{
+                      'fas fa-check-circle': teacher.employment_status === 'Active',
+                      'fas fa-pause-circle': teacher.employment_status === 'Inactive',
+                      'fas fa-sign-out-alt': teacher.employment_status === 'Resigned',
+                      'fas fa-times-circle': teacher.employment_status === 'Terminated'
+                    }"
+                  ></i>
+                  {{ teacher.employment_status || 'Active' }}
                 </span>
               </div>
             </div>
-            
+
             <div class="info-item mb-3">
-              <label class="fw-bold text-muted small">JOINED DATE</label>
+              <label class="fw-bold text-muted small">HIRE DATE</label>
               <div class="mt-1 text-dark">
                 <i class="fas fa-calendar me-2 text-muted"></i>
-                {{ formatDate(teacher.created_at) }}
+                {{ formatDate(teacher.hire_date) }}
               </div>
             </div>
-            
-            <div class="info-item">
-              <label class="fw-bold text-muted small">LAST UPDATED</label>
+
+            <div class="info-item mb-3">
+              <label class="fw-bold text-muted small">CONTACT</label>
               <div class="mt-1 text-dark">
-                <i class="fas fa-clock me-2 text-muted"></i>
-                {{ formatDate(teacher.updated_at) }}
+                <i class="fas fa-phone me-2 text-muted"></i>
+                {{ teacher.contact_number }}
+              </div>
+            </div>
+
+            <div class="info-item" v-if="teacher.emergency_contact">
+              <label class="fw-bold text-muted small">EMERGENCY CONTACT</label>
+              <div class="mt-1 text-dark">
+                <i class="fas fa-phone-alt me-2 text-muted"></i>
+                {{ teacher.emergency_contact }}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Sections and Assignments -->
+      <!-- Teacher Details -->
       <div class="col-lg-8">
+        <div class="row">
+          <!-- Personal Information -->
+          <div class="col-12 mb-4">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white border-bottom">
+                <h6 class="m-0 fw-bold text-primary">
+                  <i class="fas fa-id-card me-2"></i>
+                  Personal Information
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="info-item mb-3">
+                      <label class="fw-bold text-muted small">FULL NAME</label>
+                      <div class="mt-1 text-dark">
+                        {{ teacher.full_name || `${teacher.first_name} ${teacher.middle_name ? teacher.middle_name + ' ' : ''}${teacher.last_name}${teacher.suffix ? ' ' + teacher.suffix : ''}` }}
+                      </div>
+                    </div>
+                    <div class="info-item mb-3" v-if="teacher.birth_date">
+                      <label class="fw-bold text-muted small">BIRTH DATE</label>
+                      <div class="mt-1 text-dark">
+                        <i class="fas fa-birthday-cake me-2 text-muted"></i>
+                        {{ formatDate(teacher.birth_date) }}
+                      </div>
+                    </div>
+                    <div class="info-item mb-3" v-if="teacher.gender">
+                      <label class="fw-bold text-muted small">GENDER</label>
+                      <div class="mt-1 text-dark">
+                        <i class="fas fa-user me-2 text-muted"></i>
+                        {{ teacher.gender }}
+                      </div>
+                    </div>
+                    <div class="info-item mb-3" v-if="teacher.address">
+                      <label class="fw-bold text-muted small">ADDRESS</label>
+                      <div class="mt-1 text-dark">
+                        <i class="fas fa-map-marker-alt me-2 text-muted"></i>
+                        {{ teacher.address }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="info-item mb-3" v-if="teacher.salary">
+                      <label class="fw-bold text-muted small">SALARY</label>
+                      <div class="mt-1 text-dark">
+                        <i class="fas fa-money-bill-wave me-2 text-muted"></i>
+                        ₱{{ Number(teacher.salary).toLocaleString() }}
+                      </div>
+                    </div>
+                    <div class="info-item mb-3" v-if="teacher.qualifications">
+                      <label class="fw-bold text-muted small">QUALIFICATIONS</label>
+                      <div class="mt-1 text-dark">
+                        <i class="fas fa-graduation-cap me-2 text-muted"></i>
+                        {{ teacher.qualifications }}
+                      </div>
+                    </div>
+                    <div class="info-item mb-3" v-if="teacher.certifications">
+                      <label class="fw-bold text-muted small">CERTIFICATIONS</label>
+                      <div class="mt-1 text-dark">
+                        <i class="fas fa-certificate me-2 text-muted"></i>
+                        {{ teacher.certifications }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row">
           <!-- Advised Sections -->
           <div class="col-md-6 mb-4">
@@ -298,7 +401,4 @@ export default {
   transition: transform 0.2s ease;
 }
 
-.card:hover {
-  transform: translateY(-2px);
-}
 </style>

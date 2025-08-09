@@ -173,10 +173,15 @@
                       <i class="fas fa-user-tie"></i>
                     </div>
                     <div>
-                      <div class="fw-bold text-dark">{{ teacher.name }}</div>
+                      <div class="fw-bold text-dark">{{ teacher.full_name || `${teacher.first_name} ${teacher.last_name}` }}</div>
                       <small class="text-muted">
                         <i class="fas fa-id-badge me-1"></i>
-                        Teacher ID: {{ teacher.id }}
+                        ID: {{ teacher.teacher_id }}
+                      </small>
+                      <br>
+                      <small class="text-muted">
+                        <i class="fas fa-briefcase me-1"></i>
+                        {{ teacher.position }}
                       </small>
                     </div>
                   </div>
@@ -187,9 +192,13 @@
                       <i class="fas fa-envelope me-2 text-muted"></i>
                       {{ teacher.email }}
                     </div>
+                    <div class="text-dark mb-1">
+                      <i class="fas fa-phone me-2 text-muted"></i>
+                      {{ teacher.contact_number }}
+                    </div>
                     <small class="text-muted">
                       <i class="fas fa-calendar me-1"></i>
-                      Joined {{ formatDate(teacher.created_at) }}
+                      Hired {{ formatDate(teacher.hire_date) }}
                     </small>
                   </div>
                 </td>
@@ -208,9 +217,25 @@
                   </div>
                 </td>
                 <td class="py-3">
-                  <span class="badge bg-success-soft text-success">
-                    <i class="fas fa-check-circle me-1"></i>
-                    Active
+                  <span
+                    class="badge"
+                    :class="{
+                      'bg-success-soft text-success': teacher.employment_status === 'Active',
+                      'bg-warning-soft text-warning': teacher.employment_status === 'Inactive',
+                      'bg-secondary-soft text-secondary': teacher.employment_status === 'Resigned',
+                      'bg-danger-soft text-danger': teacher.employment_status === 'Terminated'
+                    }"
+                  >
+                    <i
+                      class="me-1"
+                      :class="{
+                        'fas fa-check-circle': teacher.employment_status === 'Active',
+                        'fas fa-pause-circle': teacher.employment_status === 'Inactive',
+                        'fas fa-sign-out-alt': teacher.employment_status === 'Resigned',
+                        'fas fa-times-circle': teacher.employment_status === 'Terminated'
+                      }"
+                    ></i>
+                    {{ teacher.employment_status || 'Active' }}
                   </span>
                 </td>
                 <td class="text-center py-3">
@@ -453,6 +478,10 @@
               <i class="fas fa-times me-2"></i>
               Close
             </button>
+            <button type="button" class="btn btn-outline-info me-2" @click="showTeacherDetails(teacherToView)" data-bs-dismiss="modal">
+              <i class="fas fa-eye me-2"></i>
+              Show All Details
+            </button>
             <button type="button" class="btn btn-warning" @click="editTeacher(teacherToView)" data-bs-dismiss="modal">
               <i class="fas fa-edit me-2"></i>
               Edit Teacher
@@ -583,6 +612,9 @@ export default {
     },
     editTeacher(teacher) {
       router.visit(`/admin/teachers/${teacher.id}/edit`)
+    },
+    showTeacherDetails(teacher) {
+      router.visit(`/admin/teachers/${teacher.id}`)
     },
     confirmDelete(teacher) {
       this.teacherToDelete = teacher

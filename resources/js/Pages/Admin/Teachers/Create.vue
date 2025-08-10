@@ -326,7 +326,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                       <div class="form-floating">
                         <input
                           id="salary"
@@ -345,7 +345,7 @@
                           {{ form.errors.salary }}
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
 

@@ -21,7 +21,7 @@
         "@vitejs/plugin-vue": "^5.2.4",
         "@vue/compiler-sfc": "^3.5.18",
         "bootstrap": "^5.3.7",
-        "sweetalert2": "^11.22.3",
+        "sweetalert2": "^11.6.13",
         "vue": "^3.2.25"
     }
 }

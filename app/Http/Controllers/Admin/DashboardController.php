@@ -34,7 +34,7 @@ class DashboardController extends Controller
         // Get recent activities
         $recentActivities = Activity::with('user')
             ->orderBy('created_at', 'desc')
-            ->limit(10)
+            ->limit(5)
             ->get()
             ->map(function ($activity) {
                 return [

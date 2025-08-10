@@ -103,7 +103,7 @@
             </h6>
           </div>
           <div class="card-body">
-            <div v-if="recentActivities && recentActivities.length > 0" class="timeline">
+            <div v-if="recentActivities && recentActivities.length > 0" class="timeline" style="max-height: 300px; overflow-y: auto;">
               <div v-for="activity in recentActivities" :key="activity.id" class="timeline-item mb-3">
                 <div class="d-flex">
                   <div class="timeline-marker me-3">

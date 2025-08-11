@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\SchoolYearController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\AdmissionController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Parents\ParentDashboardController;
+use App\Http\Controllers\Teachers\TeacherDashboardController;
 
 // Redirect root to login
 Route::get('/', function () {
@@ -51,4 +53,16 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
         Route::get('/learners', [ReportController::class, 'learners'])->name('learners');
         Route::get('/teachers', [ReportController::class, 'teachers'])->name('teachers');
     });
+});
+
+// Parent Routes (Protected)
+Route::middleware(['auth', 'verified'])->prefix('parent')->name('parent.')->group(function () {
+    // Dashboard parents
+    Route::get('/dashboard', [ParentDashboardController::class, 'index'])->name('dashboard');
+});
+
+// Teacher Routes (Protected)
+Route::middleware(['auth', 'verified'])->prefix('teacher')->name('teacher.')->group(function () {
+    // Dashboard parents
+    Route::get('/dashboard', [TeacherDashboardController::class, 'index'])->name('dashboard');
 });

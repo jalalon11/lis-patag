@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Traits\LogsActivity;
+use Illuminate\Foundation\Auth\User;
 
 class Guardian extends Authenticatable
 {
@@ -17,9 +18,7 @@ class Guardian extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'guardian_id',
         'phone',
         'relationship',
         'address',
@@ -40,6 +39,10 @@ class Guardian extends Authenticatable
      *
      * @return array<string, string>
      */
+    public function guardian()
+    {
+        return $this->belongsTo(User::class, 'guardian_id');
+    }
     protected function casts(): array
     {
         return [

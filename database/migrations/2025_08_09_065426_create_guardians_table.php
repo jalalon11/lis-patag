@@ -13,14 +13,10 @@ return new class extends Migration
     {
         Schema::create('guardians', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('phone')->nullable();
             $table->enum('relationship', ['father', 'mother', 'guardian', 'grandfather', 'grandmother', 'uncle', 'aunt', 'other'])->nullable();
             $table->text('address')->nullable();
-            $table->rememberToken();
             $table->timestamps();
         });
     }

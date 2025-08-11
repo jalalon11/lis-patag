@@ -1,13 +1,13 @@
 <template>
   <div class="d-flex">
     <!-- Sidebar -->
-    <nav class="sidebar bg-primary text-white position-fixed" :class="{ 'show': sidebarOpen }">
+    <nav class="sidebar bg-success text-white position-fixed" :class="{ 'show': sidebarOpen }">
       <!-- Sidebar Header -->
       <div class="p-3 border-bottom border-light border-opacity-25">
         <div class="d-flex align-items-center">
           <div>
             <h5 class="mb-0 fw-bold">Patag Elementary</h5>
-            <small class="opacity-75">Learning Information System</small>
+            <small class="opacity-75">Parent Portal</small>
           </div>
           <button 
             class="btn btn-link text-white ms-auto d-lg-none" 
@@ -24,9 +24,9 @@
           <!-- Dashboard -->
           <li class="nav-item">
             <Link
-              href="/admin/dashboard"
+              href="/parent/dashboard"
               class="nav-link text-white"
-              :class="{ 'active bg-white bg-opacity-25': $page.url === '/admin/dashboard' }"
+              :class="{ 'active bg-white bg-opacity-25': $page.url === '/parent/dashboard' }"
               @click="closeSidebarOnMobile"
             >
               <i class="fas fa-tachometer-alt me-2"></i>
@@ -34,172 +34,172 @@
             </Link>
           </li>
 
-          <!-- Account Management -->
+          <!-- My Children -->
           <li class="nav-item">
             <a
               class="nav-link text-white d-flex justify-content-between align-items-center"
-              :class="{ 'active bg-white bg-opacity-25': accountsMenuOpen }"
-              @click="toggleSubmenu('accounts')"
+              :class="{ 'active bg-white bg-opacity-25': childrenMenuOpen }"
+              @click="toggleSubmenu('children')"
               role="button"
             >
               <span>
-                <i class="fas fa-users me-2"></i>
-                Account Management
+                <i class="fas fa-child me-2"></i>
+                My Children
               </span>
-              <i class="fas fa-chevron-down" :class="{ 'rotate-180': accountsMenuOpen }"></i>
+              <i class="fas fa-chevron-down" :class="{ 'rotate-180': childrenMenuOpen }"></i>
             </a>
-            <div class="collapse" :class="{ 'show': accountsMenuOpen }">
+            <div class="collapse" :class="{ 'show': childrenMenuOpen }">
               <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
                   <Link
-                    href="/admin/teachers"
+                    href="/parent/children/child-1"
                     class="nav-link text-white-50"
-                    :class="{ 'active text-white': $page.url.startsWith('/admin/teachers') }"
+                    :class="{ 'active text-white': $page.url.startsWith('/parent/children/child-1') }"
                     @click="closeSidebarOnMobile"
                   >
-                    <i class="fas fa-chalkboard-teacher me-2"></i>
-                    Teachers
+                    <i class="fas fa-user me-2"></i>
+                    Child 1
                   </Link>
                 </li>
                 <li class="nav-item">
                   <Link
-                    href="/admin/parents"
+                    href="/parent/children/child-2"
                     class="nav-link text-white-50"
-                    :class="{ 'active text-white': $page.url.startsWith('/admin/parents') }"
+                    :class="{ 'active text-white': $page.url.startsWith('/parent/children/child-2') }"
                     @click="closeSidebarOnMobile"
                   >
-                    <i class="fas fa-user-friends me-2"></i>
-                    Parents/Guardians
+                    <i class="fas fa-user me-2"></i>
+                    Child 2
                   </Link>
                 </li>
               </ul>
             </div>
           </li>
 
-          <!-- Curricula Management -->
+          <!-- Academic Report -->
           <li class="nav-item">
             <a
               class="nav-link text-white d-flex justify-content-between align-items-center"
-              :class="{ 'active bg-white bg-opacity-25': curriculaMenuOpen }"
-              @click="toggleSubmenu('curricula')"
+              :class="{ 'active bg-white bg-opacity-25': academicMenuOpen }"
+              @click="toggleSubmenu('academic')"
               role="button"
             >
               <span>
-                <i class="fas fa-book me-2"></i>
-                Curricula Management
+                <i class="fas fa-graduation-cap me-2"></i>
+                Academic Report
               </span>
-              <i class="fas fa-chevron-down" :class="{ 'rotate-180': curriculaMenuOpen }"></i>
+              <i class="fas fa-chevron-down" :class="{ 'rotate-180': academicMenuOpen }"></i>
             </a>
-            <div class="collapse" :class="{ 'show': curriculaMenuOpen }">
+            <div class="collapse" :class="{ 'show': academicMenuOpen }">
               <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
                   <Link
-                    href="/admin/subjects"
+                    href="/parent/academic/grades"
                     class="nav-link text-white-50"
-                    :class="{ 'active text-white': $page.url.startsWith('/admin/subjects') }"
+                    :class="{ 'active text-white': $page.url.startsWith('/parent/academic/grades') }"
                     @click="closeSidebarOnMobile"
                   >
-                    <i class="fas fa-book-open me-2"></i>
-                    Subjects
+                    <i class="fas fa-medal me-2"></i>
+                    View Grades
                   </Link>
                 </li>
                 <li class="nav-item">
                   <Link
-                    href="/admin/sections"
+                    href="/parent/academic/observable-values"
                     class="nav-link text-white-50"
-                    :class="{ 'active text-white ': $page.url.startsWith('/admin/sections') }"
+                    :class="{ 'active text-white': $page.url.startsWith('/parent/academic/observable-values') }"
                     @click="closeSidebarOnMobile"
                   >
-                    <i class="fas fa-layer-group me-2"></i>
-                    Sections
+                    <i class="fas fa-eye me-2"></i>
+                    View Observable Values
                   </Link>
                 </li>
                 <li class="nav-item">
                   <Link
-                    href="/admin/school-years"
+                    href="/parent/academic/quizzes"
                     class="nav-link text-white-50"
-                    :class="{ 'active text-white': $page.url.startsWith('/admin/school-years') }"
+                    :class="{ 'active text-white': $page.url.startsWith('/parent/academic/quizzes') }"
                     @click="closeSidebarOnMobile"
                   >
-                    <i class="fas fa-calendar-alt me-2"></i>
-                    School Years
+                    <i class="fas fa-question-circle me-2"></i>
+                    View Quizzes
                   </Link>
                 </li>
                 <li class="nav-item">
                   <Link
-                    href="/admin/schedules"
+                    href="/parent/academic/assignments"
                     class="nav-link text-white-50"
-                    :class="{ 'active text-white': $page.url.startsWith('/admin/schedules') }"
+                    :class="{ 'active text-white': $page.url.startsWith('/parent/academic/assignments') }"
                     @click="closeSidebarOnMobile"
                   >
-                    <i class="fas fa-clock me-2"></i>
-                    Schedules
+                    <i class="fas fa-tasks me-2"></i>
+                    View Assignments
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link
+                    href="/parent/academic/examinations"
+                    class="nav-link text-white-50"
+                    :class="{ 'active text-white': $page.url.startsWith('/parent/academic/examinations') }"
+                    @click="closeSidebarOnMobile"
+                  >
+                    <i class="fas fa-clipboard-check me-2"></i>
+                    View Examinations
                   </Link>
                 </li>
               </ul>
             </div>
           </li>
 
-          <!-- Student Admission -->
+          <!-- Attendance -->
           <li class="nav-item">
             <Link
-              href="/admin/admission"
+              href="/parent/attendance"
               class="nav-link text-white"
-              :class="{ 'active bg-white bg-opacity-25': $page.url === '/admin/admission' }"
+              :class="{ 'active bg-white bg-opacity-25': $page.url === '/parent/attendance' }"
               @click="closeSidebarOnMobile"
             >
-              <i class="fas fa-user-plus me-2"></i>
-              Student Admission
+              <i class="fas fa-calendar-check me-2"></i>
+              Attendance
             </Link>
           </li>
 
-          <!-- Reports -->
+          <!-- School Communication -->
           <li class="nav-item">
             <a
               class="nav-link text-white d-flex justify-content-between align-items-center"
-              :class="{ 'active bg-white bg-opacity-25': reportsMenuOpen }"
-              @click="toggleSubmenu('reports')"
+              :class="{ 'active bg-white bg-opacity-25': communicationMenuOpen }"
+              @click="toggleSubmenu('communication')"
               role="button"
             >
               <span>
-                <i class="fas fa-chart-bar me-2"></i>
-                Reports
+                <i class="fas fa-comments me-2"></i>
+                School Communication
               </span>
-              <i class="fas fa-chevron-down" :class="{ 'rotate-180': reportsMenuOpen }"></i>
+              <i class="fas fa-chevron-down" :class="{ 'rotate-180': communicationMenuOpen }"></i>
             </a>
-            <div class="collapse" :class="{ 'show': reportsMenuOpen }">
+            <div class="collapse" :class="{ 'show': communicationMenuOpen }">
               <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
                   <Link
-                    href="/admin/reports/sf1"
+                    href="/parent/communication/announcements"
                     class="nav-link text-white-50"
-                    :class="{ 'active text-white': $page.url.startsWith('/admin/reports/sf1') }"
+                    :class="{ 'active text-white': $page.url.startsWith('/parent/communication/announcements') }"
                     @click="closeSidebarOnMobile"
                   >
-                    <i class="fas fa-list me-2"></i>
-                    SF1 Master List
+                    <i class="fas fa-bullhorn me-2"></i>
+                    View Announcements
                   </Link>
                 </li>
                 <li class="nav-item">
                   <Link
-                    href="/admin/reports/learners"
+                    href="/parent/communication/feedback"
                     class="nav-link text-white-50"
-                    :class="{ 'active text-white': $page.url.startsWith('/admin/reports/learners') }"
+                    :class="{ 'active text-white': $page.url.startsWith('/parent/communication/feedback') }"
                     @click="closeSidebarOnMobile"
                   >
-                    <i class="fas fa-graduation-cap me-2"></i>
-                    Learners by Grade
-                  </Link>
-                </li>
-                <li class="nav-item">
-                  <Link
-                    href="/admin/reports/teachers"
-                    class="nav-link text-white-50"
-                    :class="{ 'active text-white': $page.url.startsWith('/admin/reports/teachers') }"
-                    @click="closeSidebarOnMobile"
-                  >
-                    <i class="fas fa-chalkboard-teacher me-2"></i>
-                    Teachers List
+                    <i class="fas fa-comment-dots me-2"></i>
+                    View Feedback
                   </Link>
                 </li>
               </ul>
@@ -236,13 +236,13 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
         <div class="container-fluid">
           <button
-            class="btn btn-text-primary border-0 me-3"
+            class="btn btn-text-success border-0 me-3"
             @click="toggleSidebar"
           >
             <i class="fas fa-bars"></i>
           </button>
           
-          <h5 class="mb-0 text-primary fw-bold">{{ pageTitle || 'Dashboard' }}</h5>
+          <h5 class="mb-0 text-success fw-bold">{{ pageTitle || 'Dashboard' }}</h5>
 
           <div class="ms-auto">
             <div class="dropdown">
@@ -251,20 +251,20 @@
                 @click="toggleUserDropdown"
                 :class="{ 'show': userDropdownOpen }"
               >
-                <div class="bg-primary text-white rounded-circle p-1 me-2" style="width: 32px; height: 32px;">
+                <div class="bg-success text-white rounded-circle p-1 me-2" style="width: 32px; height: 32px;">
                   <i class="fas fa-user small"></i>
                 </div>
                 <span class="text-dark">{{ $page.props.auth.user.name }}</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm" :class="{ 'show': userDropdownOpen }">
                 <li>
-                  <Link href="/admin/profile" class="dropdown-item" @click="closeUserDropdown">
+                  <Link href="/parent/profile" class="dropdown-item" @click="closeUserDropdown">
                     <i class="fas fa-user me-2"></i>
                     Profile
                   </Link>
                 </li>
                 <li>
-                  <Link href="/admin/settings" class="dropdown-item" @click="closeUserDropdown">
+                  <Link href="/parent/settings" class="dropdown-item" @click="closeUserDropdown">
                     <i class="fas fa-cog me-2"></i>
                     Settings
                   </Link>
@@ -294,7 +294,7 @@
 import { Link } from '@inertiajs/vue3'
 
 export default {
-  name: 'AdminLayout',
+  name: 'ParentLayout',
   components: {
     Link
   },
@@ -307,9 +307,9 @@ export default {
   data() {
     return {
       sidebarOpen: true, // Start with sidebar open on desktop
-      accountsMenuOpen: false,
-      curriculaMenuOpen: false,
-      reportsMenuOpen: false,
+      childrenMenuOpen: false,
+      academicMenuOpen: false,
+      communicationMenuOpen: false,
       userDropdownOpen: false,
       isMobile: false
     }
@@ -331,14 +331,14 @@ export default {
     
     toggleSubmenu(menu) {
       switch (menu) {
-        case 'accounts':
-          this.accountsMenuOpen = !this.accountsMenuOpen
+        case 'children':
+          this.childrenMenuOpen = !this.childrenMenuOpen
           break
-        case 'curricula':
-          this.curriculaMenuOpen = !this.curriculaMenuOpen
+        case 'academic':
+          this.academicMenuOpen = !this.academicMenuOpen
           break
-        case 'reports':
-          this.reportsMenuOpen = !this.reportsMenuOpen
+        case 'communication':
+          this.communicationMenuOpen = !this.communicationMenuOpen
           break
       }
     },
@@ -374,13 +374,12 @@ export default {
     
     autoOpenMenus() {
       const currentUrl = this.$page.url
-      if (currentUrl.startsWith('/admin/teachers') || currentUrl.startsWith('/admin/parents')) {
-        this.accountsMenuOpen = true
-      } else if (currentUrl.startsWith('/admin/subjects') || currentUrl.startsWith('/admin/sections') ||
-                 currentUrl.startsWith('/admin/school-years') || currentUrl.startsWith('/admin/schedules')) {
-        this.curriculaMenuOpen = true
-      } else if (currentUrl.startsWith('/admin/reports')) {
-        this.reportsMenuOpen = true
+      if (currentUrl.startsWith('/parent/children')) {
+        this.childrenMenuOpen = true
+      } else if (currentUrl.startsWith('/parent/academic')) {
+        this.academicMenuOpen = true
+      } else if (currentUrl.startsWith('/parent/communication')) {
+        this.communicationMenuOpen = true
       }
     }
   },
@@ -446,8 +445,7 @@ export default {
   }
 }
 
-/* Sidebar Styling - Using Bootstrap Primary Blue */
-
+/* Sidebar Styling - Using Bootstrap Success Green */
 
 /* Top-level nav items */
 .sidebar .nav-link {

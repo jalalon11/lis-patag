@@ -13,11 +13,7 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->string('teacher_id')->unique();
-            $table->string('first_name');
-            $table->string('middle_name')->nullable();
-            $table->string('last_name');
-            $table->string('suffix')->nullable();
+            $table->foreignId('teacher_id')->constrained('users')->cascadeOnDelete();
             $table->date('birth_date');
             $table->enum('gender', ['Male', 'Female']);
             $table->text('address');
@@ -28,7 +24,6 @@ return new class extends Migration
             $table->string('department')->nullable();
             $table->date('hire_date');
             $table->enum('employment_status', ['Active', 'Inactive', 'Resigned', 'Terminated'])->default('Active');
-            $table->decimal('salary', 10, 2)->nullable();
             $table->text('qualifications')->nullable();
             $table->text('certifications')->nullable();
             $table->timestamps();

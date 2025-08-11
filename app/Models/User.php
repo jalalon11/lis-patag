@@ -18,7 +18,10 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'middle_name',
+        'suffix',
         'email',
         'password',
         'role',
@@ -72,5 +75,13 @@ class User extends Authenticatable
     public function isParent(): bool
     {
         return $this->role === 'parent';
+    }
+    public function teacher() 
+    {
+        return $this->hasMany(Teacher::class);
+    }
+    public function guardian()
+    {
+        return $this->hasMany(Guardian::class);
     }
 }

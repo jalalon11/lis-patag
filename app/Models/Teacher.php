@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Auth\User;
 
 class Teacher extends Model
 {
@@ -12,10 +14,6 @@ class Teacher extends Model
 
     protected $fillable = [
         'teacher_id',
-        'first_name',
-        'middle_name',
-        'last_name',
-        'suffix',
         'birth_date',
         'gender',
         'address',
@@ -26,7 +24,6 @@ class Teacher extends Model
         'department',
         'hire_date',
         'employment_status',
-        'salary',
         'qualifications',
         'certifications'
     ];
@@ -57,6 +54,10 @@ class Teacher extends Model
     public function advisedSections()
     {
         return $this->hasMany(Section::class, 'adviser_id');
+    }
+    public function teacher()
+    {
+        return $this->BelongsTo(User::class, 'teacher_id');
     }
 
     /**

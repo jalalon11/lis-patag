@@ -51,5 +51,5 @@ class DashboardController extends Controller
             'stats' => $stats,
             'recentActivities' => $recentActivities
         ]);
-    }
+    } // ✅ Proper closing
 }

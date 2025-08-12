@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('department')->nullable();
             $table->date('hire_date');
             $table->enum('employment_status', ['Active', 'Inactive', 'Resigned', 'Terminated'])->default('Active');
-            $table->decimal('salary', 10, 2)->nullable();
             $table->text('qualifications')->nullable();
             $table->text('certifications')->nullable();
             $table->timestamps();

@@ -30,6 +30,9 @@
 .bg-primary {
     background-color: var(--primary-color) !important;
 }
+.bg-mute {
+    background-color: var(--text-muted);
+}
 
 .text-primary {
     color: var(--primary-color) !important;

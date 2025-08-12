@@ -14,6 +14,7 @@ class Subject extends Model
         'grade_levels',
         'units',
         'subject_type',
+        'curriculum_year',
         'is_active',
     ];
 

@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('subject_code')->unique();
             $table->string('subject_name');
             $table->text('description')->nullable();
-            $table->json('grade_levels'); // Array of applicable grade levels
+            $table->integer('grade_levels');
             $table->integer('units')->default(1);
+            $table->year('curriculum_year');
             $table->enum('subject_type', ['Core', 'Elective', 'Special'])->default('Core');
             $table->boolean('is_active')->default(true);
             $table->timestamps();

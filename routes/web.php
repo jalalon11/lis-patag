@@ -38,9 +38,14 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('parents', GuardianController::class)->parameters(['parents' => 'parent']);
 
     // Curricula Management
+    // Bulk create routes
+    Route::get('subjects/bulk-create', [SubjectController::class, 'createBulk']);
+    Route::post('subjects/bulk-store', [SubjectController::class, 'storeBulk']);
     Route::resource('subjects', SubjectController::class);
     Route::resource('sections', SectionController::class);
-    Route::resource('school-years', SchoolYearController::class);
+
+    Route::get('school-years', [SchoolYearController::class, 'index'])->name('school-years.index');
+    Route::resource('school-years', SchoolYearController::class)->except('get');
     Route::resource('schedules', ScheduleController::class);
 
     // Admission

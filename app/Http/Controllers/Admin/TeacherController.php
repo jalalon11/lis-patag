@@ -97,7 +97,6 @@ class TeacherController extends Controller
             'department' => $request->department,
             'hire_date' => $request->hire_date,
             'employment_status' => $request->employment_status,
-            'salary' => $request->salary,
             'qualifications' => $request->qualifications,
             'certifications' => $request->certifications,
         ]);

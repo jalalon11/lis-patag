@@ -291,7 +291,7 @@
         <nav aria-label="Sections pagination">
           <ul class="pagination justify-content-center mb-0">
             <li v-for="link in sections.links" :key="link.label" class="page-item" :class="{ active: link.active, disabled: !link.url }">
-              <Link v-if="link.url" :href="link.url" class="page-link" v-html="link.label"></Link>
+              <Link v-if="link.url" :href="link.url" class="page-link"></Link>
               <span v-else class="page-link" v-html="link.label"></span>
             </li>
           </ul>

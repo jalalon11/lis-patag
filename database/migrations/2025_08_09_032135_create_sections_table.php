@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
             $table->string('section_name'); // e.g., "A", "B", "Mabait", "Masipag"
-            $table->enum('grade_level', ['Kindergarten', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6']);
-            $table->foreignId('school_year_id')->constrained()->onDelete('cascade');
+            $table->integer('grade_level');
+            $table->foreignId('school_year_id')->constrained()->cascadeOnDelete();
             $table->foreignId('adviser_id')->nullable()->constrained('users')->onDelete('set null'); // Teacher as adviser
             $table->integer('capacity')->default(40);
             $table->integer('current_enrollment')->default(0);

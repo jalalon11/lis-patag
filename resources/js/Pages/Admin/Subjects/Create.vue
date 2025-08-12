@@ -6,11 +6,21 @@
         <div class="col-lg-8 col-md-10">
           <div class="card border-0 shadow-sm">
             <div class="card-body p-4">
+              <!-- Action Buttons -->
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold text-primary mb-0">
+                  <i class="fas fa-book me-2"></i> Add New Subject
+                </h4>
+                <Link href="/admin/subjects/bulk-create" class="btn btn-outline-primary btn-sm">
+                  <i class="fas fa-table me-1"></i> Bulk Add Subjects
+                </Link>
+              </div>
+
               <form @submit.prevent="submit">
                 <!-- Basic Information -->
                 <div class="mb-4">
                   <h5 class="fw-bold text-primary mb-3">
-                    <i class="fas fa-book me-1"></i> Basic Information
+                    <i class="fas fa-info-circle me-1"></i> Basic Information
                   </h5>
                   <div class="row g-3">
                     <div class="col-md-6">
@@ -78,7 +88,30 @@
                     <i class="fas fa-graduation-cap me-1"></i> Subject Details
                   </h5>
                   <div class="row g-3">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                      <div class="form-floating">
+                        <select
+                          id="grade_level"
+                          v-model="form.grade_levels"
+                          class="form-select"
+                          :class="{ 'is-invalid': form.errors.grade_levels }"
+                          required
+                        >
+                          <option value="">Select Grade Level</option>
+                          <option value="0">Kindergarten</option>
+                          <option v-for="grade in 12" :key="grade" :value="grade">
+                            Grade {{ grade }}
+                          </option>
+                        </select>
+                        <label for="grade_level" class="form-label">
+                          Grade Level <span class="text-danger">*</span>
+                        </label>
+                        <div v-if="form.errors.grade_levels" class="invalid-feedback">
+                          {{ form.errors.grade_levels }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
                       <div class="form-floating">
                         <input
                           id="units"
@@ -99,7 +132,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <div class="form-floating">
                         <select
                           id="subject_type"
@@ -121,32 +154,28 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-12">
-                      <label class="fw-semibold mb-2">Grade Levels <span class="text-danger">*</span></label>
-                      <div class="border rounded p-3" :class="{ 'border-danger': form.errors.grade_levels }">
-                        <div class="row">
-                          <div v-for="grade in gradeLevels" :key="grade" class="col-md-6 mb-2">
-                            <div class="form-check">
-                              <input
-                                :id="`grade_${grade.replace(' ', '_')}`"
-                                v-model="form.grade_levels"
-                                :value="grade"
-                                type="checkbox"
-                                class="form-check-input"
-                                :class="{ 'is-invalid': form.errors.grade_levels }"
-                              />
-                              <label :for="`grade_${grade.replace(' ', '_')}`" class="form-check-label">
-                                {{ grade }}
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div v-if="form.errors.grade_levels" class="invalid-feedback d-block">
-                          {{ form.errors.grade_levels }}
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input
+                          id="curriculum_year"
+                          v-model="form.curriculum_year"
+                          type="number"
+                          :min="new Date().getFullYear() - 10"
+                          :max="new Date().getFullYear() + 5"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.curriculum_year }"
+                          placeholder="Curriculum Year"
+                          required
+                        />
+                        <label for="curriculum_year" class="form-label">
+                          Curriculum Year <span class="text-danger">*</span>
+                        </label>
+                        <div v-if="form.errors.curriculum_year" class="invalid-feedback">
+                          {{ form.errors.curriculum_year }}
                         </div>
                       </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-md-6 d-flex align-items-center">
                       <div class="form-check form-switch">
                         <input
                           id="is_active"
@@ -206,14 +235,14 @@ export default {
   },
   data() {
     return {
-      gradeLevels: ['Kindergarten', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6'],
       form: useForm({
         subject_code: '',
         subject_name: '',
         description: '',
-        grade_levels: [],
+        grade_levels: '', // Changed from grade_levels array to single grade_level
         units: 1,
         subject_type: '',
+        curriculum_year: new Date().getFullYear(),
         is_active: true
       })
     }
@@ -223,7 +252,6 @@ export default {
       this.form.post('/admin/subjects', {
         onSuccess: () => {
           showSuccessToast('Subject Created!', `${this.form.subject_name} has been added successfully.`)
-          router.visit('/admin/subjects')
         },
         onError: (errors) => {
           const firstError = Object.values(errors)[0]
@@ -287,21 +315,17 @@ export default {
   cursor: not-allowed;
 }
 
-.btn-outline-secondary {
+.btn-outline-secondary, .btn-outline-primary {
   border-radius: 6px;
   transition: all 0.2s ease-in-out;
 }
 
-.btn-outline-secondary:hover {
+.btn-outline-secondary:hover, .btn-outline-primary:hover {
   transform: translateY(-1px);
 }
 
 .border-top {
   border-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-.border-danger {
-  border-color: #dc3545 !important;
 }
 
 .fa-spinner.fa-spin {

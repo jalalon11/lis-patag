@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Auth\User;
 
 class Teacher extends Model
 {
@@ -14,16 +13,17 @@ class Teacher extends Model
 
     protected $fillable = [
         'teacher_id',
+        'user_id',
         'birth_date',
         'gender',
         'address',
         'contact_number',
-        'email',
         'emergency_contact',
         'position',
         'department',
         'hire_date',
         'employment_status',
+        'salary',
         'qualifications',
         'certifications'
     ];
@@ -34,18 +34,55 @@ class Teacher extends Model
         'salary' => 'decimal:2',
     ];
 
-    // Accessor for full name
+    protected $appends = [
+        'full_name',
+        'first_name',
+        'last_name',
+        'email'
+    ];
+
+    /**
+     * Get the user associated with this teacher.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // Accessor for full name (from related user)
     public function getFullNameAttribute()
     {
-        $name = $this->first_name;
-        if ($this->middle_name) {
-            $name .= ' ' . $this->middle_name;
+        if (!$this->user) {
+            return '';
         }
-        $name .= ' ' . $this->last_name;
-        if ($this->suffix) {
-            $name .= ' ' . $this->suffix;
+
+        $name = $this->user->first_name;
+        if ($this->user->middle_initial) {
+            $name .= ' ' . $this->user->middle_initial;
+        }
+        $name .= ' ' . $this->user->last_name;
+        if ($this->user->suffix) {
+            $name .= ' ' . $this->user->suffix;
         }
         return $name;
+    }
+
+    // Accessor for first name (from related user)
+    public function getFirstNameAttribute()
+    {
+        return $this->user?->first_name;
+    }
+
+    // Accessor for last name (from related user)
+    public function getLastNameAttribute()
+    {
+        return $this->user?->last_name;
+    }
+
+    // Accessor for email (from related user)
+    public function getEmailAttribute()
+    {
+        return $this->user?->email;
     }
 
     /**
@@ -55,10 +92,7 @@ class Teacher extends Model
     {
         return $this->hasMany(Section::class, 'adviser_id');
     }
-    public function teacher()
-    {
-        return $this->BelongsTo(User::class, 'teacher_id');
-    }
+
 
     /**
      * Get schedules assigned to this teacher.

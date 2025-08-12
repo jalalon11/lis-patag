@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Traits\LogsActivity;
-use Illuminate\Foundation\Auth\User;
 
-class Guardian extends Authenticatable
+class Guardian extends Model
 {
-    use HasFactory, Notifiable, LogsActivity;
+    use HasFactory, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -18,43 +18,73 @@ class Guardian extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'guardian_id',
+        'user_id',
         'phone',
         'relationship',
         'address',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
+    protected $appends = [
+        'full_name',
+        'first_name',
+        'last_name',
+        'email'
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Get the user associated with this guardian.
      */
-    public function guardian()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'guardian_id');
+        return $this->belongsTo(User::class);
     }
-    protected function casts(): array
+
+    // Accessor for full name (from related user)
+    public function getFullNameAttribute()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        if (!$this->user) {
+            return '';
+        }
+
+        $name = $this->user->first_name;
+        if ($this->user->middle_initial) {
+            $name .= ' ' . $this->user->middle_initial;
+        }
+        $name .= ' ' . $this->user->last_name;
+        if ($this->user->suffix) {
+            $name .= ' ' . $this->user->suffix;
+        }
+        return $name;
+    }
+
+    // Accessor for first name (from related user)
+    public function getFirstNameAttribute()
+    {
+        return $this->user?->first_name;
+    }
+
+    // Accessor for last name (from related user)
+    public function getLastNameAttribute()
+    {
+        return $this->user?->last_name;
+    }
+
+    // Accessor for email (from related user)
+    public function getEmailAttribute()
+    {
+        return $this->user?->email;
+    }
+
+    // Accessor for name (from related user) - for backward compatibility
+    public function getNameAttribute()
+    {
+        return $this->full_name;
     }
 
     /**
      * Get the students associated with this guardian.
      */
-    public function students()
+    public function students(): HasMany
     {
         return $this->hasMany(Student::class, 'guardian_id');
     }

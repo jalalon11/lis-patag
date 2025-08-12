@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherSeeder extends Seeder
 {
@@ -16,7 +18,7 @@ class TeacherSeeder extends Seeder
             [
                 'teacher_id' => 'T001',
                 'first_name' => 'Maria',
-                'middle_name' => 'Cruz',
+                'middle_initial' => 'C',
                 'last_name' => 'Santos',
                 'birth_date' => '1985-06-15',
                 'gender' => 'Female',
@@ -35,7 +37,7 @@ class TeacherSeeder extends Seeder
             [
                 'teacher_id' => 'T002',
                 'first_name' => 'Juan',
-                'middle_name' => 'Dela',
+                'middle_initial' => 'D',
                 'last_name' => 'Cruz',
                 'birth_date' => '1982-03-20',
                 'gender' => 'Male',
@@ -54,7 +56,7 @@ class TeacherSeeder extends Seeder
             [
                 'teacher_id' => 'T003',
                 'first_name' => 'Ana',
-                'middle_name' => 'Garcia',
+                'middle_initial' => 'G',
                 'last_name' => 'Reyes',
                 'birth_date' => '1988-11-10',
                 'gender' => 'Female',
@@ -72,8 +74,35 @@ class TeacherSeeder extends Seeder
             ],
         ];
 
-        foreach ($teachers as $teacher) {
-            \App\Models\Teacher::create($teacher);
+        foreach ($teachers as $teacherData) {
+            // Create user first
+            $user = User::create([
+                'first_name' => $teacherData['first_name'],
+                'last_name' => $teacherData['last_name'],
+                'middle_initial' => $teacherData['middle_initial'],
+                'email' => $teacherData['email'],
+                'role' => 'teacher',
+                'password' => Hash::make('teacher123'),
+                'email_verified_at' => now(),
+            ]);
+
+            // Create teacher record
+            \App\Models\Teacher::create([
+                'teacher_id' => $teacherData['teacher_id'],
+                'user_id' => $user->id,
+                'birth_date' => $teacherData['birth_date'],
+                'gender' => $teacherData['gender'],
+                'address' => $teacherData['address'],
+                'contact_number' => $teacherData['contact_number'],
+                'emergency_contact' => $teacherData['emergency_contact'],
+                'position' => $teacherData['position'],
+                'department' => $teacherData['department'],
+                'hire_date' => $teacherData['hire_date'],
+                'employment_status' => $teacherData['employment_status'],
+                'salary' => $teacherData['salary'],
+                'qualifications' => $teacherData['qualifications'],
+                'certifications' => $teacherData['certifications'],
+            ]);
         }
     }
 }

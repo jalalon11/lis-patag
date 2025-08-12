@@ -32,7 +32,7 @@ class SectionController extends Controller
     public function create()
     {
         $schoolYears = SchoolYear::where('is_active', true)->orderBy('year_name')->get();
-        $teachers = Teacher::where('status', 'Active')->orderBy('last_name')->get();
+        $teachers = Teacher::with('user')->where('employment_status', 'Active')->get();
 
         return Inertia::render('Admin/Sections/Create', [
             'schoolYears' => $schoolYears,
@@ -90,7 +90,7 @@ class SectionController extends Controller
     public function edit(Section $section)
     {
         $schoolYears = SchoolYear::where('is_active', true)->orderBy('year_name')->get();
-        $teachers = Teacher::where('status', 'Active')->orderBy('last_name')->get();
+        $teachers = Teacher::with('user')->where('employment_status', 'Active')->get();
 
         return Inertia::render('Admin/Sections/Edit', [
             'section' => $section,

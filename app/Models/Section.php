@@ -15,6 +15,8 @@ class Section extends Model
         'adviser_id',
         'capacity',
         'current_enrollment',
+        'room_number',
+        'description',
         'is_active',
     ];
 
@@ -29,7 +31,7 @@ class Section extends Model
 
     public function adviser(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'adviser_id');
+        return $this->belongsTo(Teacher::class, 'adviser_id');
     }
 
     public function enrollments(): HasMany

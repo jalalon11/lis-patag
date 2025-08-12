@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Guardian;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Hash;
@@ -16,8 +17,12 @@ class GuardianController extends Controller
      */
     public function index()
     {
-        $guardians = Guardian::withCount(['students'])
-            ->orderBy('created_at', 'desc')
+        $guardians = Guardian::with('user')
+            ->withCount(['students'])
+            ->join('users', 'guardians.user_id', '=', 'users.id')
+            ->orderBy('users.last_name')
+            ->orderBy('users.first_name')
+            ->select('guardians.*')
             ->paginate(10);
 
         return Inertia::render('Admin/Parents/Index', [
@@ -39,18 +44,32 @@ class GuardianController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:guardians',
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'suffix' => 'nullable|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => 'nullable|string|max:255',
             'relationship' => 'nullable|in:father,mother,guardian,grandfather,grandmother,uncle,aunt,other',
             'address' => 'nullable|string',
         ]);
 
-        Guardian::create([
-            'name' => $request->name,
+        // Create user account first
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_initial' => $request->middle_name,
+            'suffix' => $request->suffix,
             'email' => $request->email,
+            'role' => 'parent',
             'password' => Hash::make($request->password),
+            'email_verified_at' => now(),
+        ]);
+
+        // Create guardian record
+        Guardian::create([
+            'user_id' => $user->id,
             'phone' => $request->phone,
             'relationship' => $request->relationship,
             'address' => $request->address,
@@ -65,7 +84,7 @@ class GuardianController extends Controller
      */
     public function show(Guardian $parent)
     {
-        $parent->load(['students.section']);
+        $parent->load(['user', 'students.section']);
 
         return Inertia::render('Admin/Parents/Show', [
             'parent' => $parent
@@ -78,7 +97,7 @@ class GuardianController extends Controller
     public function edit(Guardian $parent)
     {
         return Inertia::render('Admin/Parents/Edit', [
-            'parent' => $parent
+            'parent' => $parent->load('user')
         ]);
     }
 
@@ -88,27 +107,38 @@ class GuardianController extends Controller
     public function update(Request $request, Guardian $parent)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:guardians,email,' . $parent->id,
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'suffix' => 'nullable|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $parent->user_id,
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'phone' => 'nullable|string|max:255',
             'relationship' => 'nullable|in:father,mother,guardian,grandfather,grandmother,uncle,aunt,other',
             'address' => 'nullable|string',
         ]);
 
-        $updateData = [
-            'name' => $request->name,
+        // Update user record
+        $userUpdateData = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_initial' => $request->middle_name,
+            'suffix' => $request->suffix,
             'email' => $request->email,
-            'phone' => $request->phone,
-            'relationship' => $request->relationship,
-            'address' => $request->address,
         ];
 
         if ($request->filled('password')) {
-            $updateData['password'] = Hash::make($request->password);
+            $userUpdateData['password'] = Hash::make($request->password);
         }
 
-        $parent->update($updateData);
+        $parent->user->update($userUpdateData);
+
+        // Update guardian record
+        $parent->update([
+            'phone' => $request->phone,
+            'relationship' => $request->relationship,
+            'address' => $request->address,
+        ]);
 
         return redirect()->route('admin.parents.index')
             ->with('success', 'Parent/Guardian updated successfully.');
@@ -119,7 +149,8 @@ class GuardianController extends Controller
      */
     public function destroy(Guardian $parent)
     {
-        $parent->delete();
+        // Delete the user (this will cascade delete the guardian due to foreign key constraint)
+        $parent->user->delete();
 
         return redirect()->route('admin.parents.index')
             ->with('success', 'Parent/Guardian deleted successfully.');

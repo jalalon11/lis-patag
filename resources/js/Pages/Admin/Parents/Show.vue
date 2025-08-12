@@ -7,7 +7,7 @@
           <i class="fas fa-user-circle me-3"></i>
           Parent/Guardian Profile
         </h2>
-        <p class="text-muted mb-0">View detailed information about {{ parent.name }}</p>
+        <p class="text-muted mb-0">View detailed information about {{ parent.full_name }}</p>
       </div>
       <div class="col-md-4 text-end">
         <div class="btn-group" role="group">
@@ -37,7 +37,7 @@
             <div class="parent-avatar-large bg-gradient-primary text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center">
               <i class="fas fa-user fa-2x"></i>
             </div>
-            <h5 class="mb-1">{{ parent.name }}</h5>
+            <h5 class="mb-1">{{ parent.full_name }}</h5>
             <p class="text-muted mb-3">{{ parent.email }}</p>
             
             <div class="info-list text-start">

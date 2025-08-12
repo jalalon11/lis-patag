@@ -173,7 +173,7 @@
                       <i class="fas fa-user"></i>
                     </div>
                     <div>
-                      <div class="fw-bold text-dark">{{ parent.name }}</div>
+                      <div class="fw-bold text-dark">{{ parent.full_name }}</div>
                       <small class="text-muted">
                         <i class="fas fa-id-badge me-1"></i>
                         Parent ID: {{ parent.id }}
@@ -647,7 +647,7 @@ export default {
       if (this.searchQuery) {
         const query = this.searchQuery.toLowerCase()
         filtered = filtered.filter(parent =>
-          parent.name.toLowerCase().includes(query) ||
+          parent.full_name.toLowerCase().includes(query) ||
           parent.email.toLowerCase().includes(query)
         )
       }

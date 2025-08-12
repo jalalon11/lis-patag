@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('teacher_id')->constrained('users')->cascadeOnDelete();
+            $table->string('teacher_id')->unique(); // T001, T002, etc.
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete(); // Link to user account
             $table->date('birth_date');
             $table->enum('gender', ['Male', 'Female']);
             $table->text('address');
             $table->string('contact_number');
-            $table->string('email')->unique();
             $table->string('emergency_contact');
             $table->string('position');
             $table->string('department')->nullable();
             $table->date('hire_date');
             $table->enum('employment_status', ['Active', 'Inactive', 'Resigned', 'Terminated'])->default('Active');
+            $table->decimal('salary', 10, 2)->nullable();
             $table->text('qualifications')->nullable();
             $table->text('certifications')->nullable();
             $table->timestamps();

@@ -20,7 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
-        'middle_name',
+        'middle_initial',
         'suffix',
         'email',
         'password',
@@ -76,12 +76,12 @@ class User extends Authenticatable
     {
         return $this->role === 'parent';
     }
-    public function teacher() 
+    public function teacher()
     {
-        return $this->hasMany(Teacher::class);
+        return $this->hasOne(Teacher::class);
     }
     public function guardian()
     {
-        return $this->hasMany(Guardian::class);
+        return $this->hasOne(Guardian::class);
     }
 }

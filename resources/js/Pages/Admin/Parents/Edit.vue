@@ -13,23 +13,77 @@
                     <i class="fas fa-user-circle me-1"></i> Personal Information
                   </h5>
                   <div class="row g-3">
-                    <div class="col-12">
+                    <div class="col-md-6">
                       <div class="form-floating">
                         <input
-                          id="name"
-                          v-model="form.name"
+                          id="first_name"
+                          v-model="form.first_name"
                           type="text"
                           class="form-control"
-                          :class="{ 'is-invalid': form.errors.name }"
-                          placeholder="Full Name"
+                          :class="{ 'is-invalid': form.errors.first_name }"
+                          placeholder="First Name"
                           required
-                          aria-describedby="nameHelp"
                         />
-                        <label for="name" class="form-label">
-                          Full Name <span class="text-danger">*</span>
+                        <label for="first_name" class="form-label">
+                          First Name <span class="text-danger">*</span>
                         </label>
-                        <div v-if="form.errors.name" class="invalid-feedback">
-                          {{ form.errors.name }}
+                        <div v-if="form.errors.first_name" class="invalid-feedback">
+                          {{ form.errors.first_name }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input
+                          id="last_name"
+                          v-model="form.last_name"
+                          type="text"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.last_name }"
+                          placeholder="Last Name"
+                          required
+                        />
+                        <label for="last_name" class="form-label">
+                          Last Name <span class="text-danger">*</span>
+                        </label>
+                        <div v-if="form.errors.last_name" class="invalid-feedback">
+                          {{ form.errors.last_name }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input
+                          id="middle_name"
+                          v-model="form.middle_name"
+                          type="text"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.middle_name }"
+                          placeholder="Middle Name"
+                        />
+                        <label for="middle_name" class="form-label">
+                          Middle Name
+                        </label>
+                        <div v-if="form.errors.middle_name" class="invalid-feedback">
+                          {{ form.errors.middle_name }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input
+                          id="suffix"
+                          v-model="form.suffix"
+                          type="text"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.suffix }"
+                          placeholder="Suffix"
+                        />
+                        <label for="suffix" class="form-label">
+                          Suffix (Jr., Sr., III, etc.)
+                        </label>
+                        <div v-if="form.errors.suffix" class="invalid-feedback">
+                          {{ form.errors.suffix }}
                         </div>
                       </div>
                     </div>
@@ -231,8 +285,11 @@ export default {
     return {
       showPassword: false,
       form: useForm({
-        name: this.parent.name || '',
-        email: this.parent.email || '',
+        first_name: this.parent.user?.first_name || '',
+        middle_name: this.parent.user?.middle_initial || '',
+        last_name: this.parent.user?.last_name || '',
+        suffix: this.parent.user?.suffix || '',
+        email: this.parent.user?.email || '',
         phone: this.parent.phone || '',
         relationship: this.parent.relationship || '',
         address: this.parent.address || '',
@@ -245,7 +302,8 @@ export default {
     submit() {
       this.form.put(`/admin/parents/${this.parent.id}`, {
         onSuccess: () => {
-          showSuccessToast('Parent Updated!', `${this.form.name} has been updated successfully.`)
+          const fullName = `${this.form.first_name} ${this.form.last_name}`
+          showSuccessToast('Parent Updated!', `${fullName} has been updated successfully.`)
           router.visit('/admin/parents')
         },
         onError: (errors) => {

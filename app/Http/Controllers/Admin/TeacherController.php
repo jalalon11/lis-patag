@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
@@ -15,8 +17,11 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::orderBy('last_name')
-            ->orderBy('first_name')
+        $teachers = Teacher::with('user')
+            ->join('users', 'teachers.user_id', '=', 'users.id')
+            ->orderBy('users.last_name')
+            ->orderBy('users.first_name')
+            ->select('teachers.*')
             ->paginate(10);
 
         return Inertia::render('Admin/Teachers/Index', [
@@ -56,7 +61,7 @@ class TeacherController extends Controller
             'gender' => 'required|in:Male,Female',
             'address' => 'required|string',
             'contact_number' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:teachers',
+            'email' => 'required|string|email|max:255|unique:users',
             'emergency_contact' => 'required|string|max:255',
             'position' => 'required|string|max:255',
             'department' => 'nullable|string|max:255',
@@ -67,7 +72,35 @@ class TeacherController extends Controller
             'certifications' => 'nullable|string',
         ]);
 
-        Teacher::create($request->all());
+        // Create user account first
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_initial' => $request->middle_name,
+            'suffix' => $request->suffix,
+            'email' => $request->email,
+            'role' => 'teacher',
+            'password' => Hash::make('teacher123'), // Default password
+            'email_verified_at' => now(),
+        ]);
+
+        // Create teacher record
+        Teacher::create([
+            'teacher_id' => $request->teacher_id,
+            'user_id' => $user->id,
+            'birth_date' => $request->birth_date,
+            'gender' => $request->gender,
+            'address' => $request->address,
+            'contact_number' => $request->contact_number,
+            'emergency_contact' => $request->emergency_contact,
+            'position' => $request->position,
+            'department' => $request->department,
+            'hire_date' => $request->hire_date,
+            'employment_status' => $request->employment_status,
+            'salary' => $request->salary,
+            'qualifications' => $request->qualifications,
+            'certifications' => $request->certifications,
+        ]);
 
         return redirect()->route('admin.teachers.index')
             ->with('success', 'Teacher created successfully.');
@@ -79,7 +112,7 @@ class TeacherController extends Controller
     public function show(Teacher $teacher)
     {
         return Inertia::render('Admin/Teachers/Show', [
-            'teacher' => $teacher->load(['advisedSections', 'schedules'])
+            'teacher' => $teacher->load(['user', 'advisedSections', 'schedules'])
         ]);
     }
 
@@ -89,7 +122,7 @@ class TeacherController extends Controller
     public function edit(Teacher $teacher)
     {
         return Inertia::render('Admin/Teachers/Edit', [
-            'teacher' => $teacher
+            'teacher' => $teacher->load('user')
         ]);
     }
 
@@ -108,7 +141,7 @@ class TeacherController extends Controller
             'gender' => 'required|in:Male,Female',
             'address' => 'required|string',
             'contact_number' => 'required|string|max:255',
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('teachers')->ignore($teacher->id)],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($teacher->user_id)],
             'emergency_contact' => 'required|string|max:255',
             'position' => 'required|string|max:255',
             'department' => 'nullable|string|max:255',
@@ -119,7 +152,31 @@ class TeacherController extends Controller
             'certifications' => 'nullable|string',
         ]);
 
-        $teacher->update($request->all());
+        // Update user record
+        $teacher->user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_initial' => $request->middle_name,
+            'suffix' => $request->suffix,
+            'email' => $request->email,
+        ]);
+
+        // Update teacher record
+        $teacher->update([
+            'teacher_id' => $request->teacher_id,
+            'birth_date' => $request->birth_date,
+            'gender' => $request->gender,
+            'address' => $request->address,
+            'contact_number' => $request->contact_number,
+            'emergency_contact' => $request->emergency_contact,
+            'position' => $request->position,
+            'department' => $request->department,
+            'hire_date' => $request->hire_date,
+            'employment_status' => $request->employment_status,
+            'salary' => $request->salary,
+            'qualifications' => $request->qualifications,
+            'certifications' => $request->certifications,
+        ]);
 
         return redirect()->route('admin.teachers.index')
             ->with('success', 'Teacher updated successfully.');
@@ -130,7 +187,8 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        $teacher->delete();
+        // Delete the user (this will cascade delete the teacher due to foreign key constraint)
+        $teacher->user->delete();
 
         return redirect()->route('admin.teachers.index')
             ->with('success', 'Teacher deleted successfully.');

@@ -94,6 +94,17 @@
               <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
                   <Link
+                    href="/admin/school-years"
+                    class="nav-link text-white-50"
+                    :class="{ 'active text-white': $page.url.startsWith('/admin/school-years') }"
+                    @click="closeSidebarOnMobile"
+                  >
+                    <i class="fas fa-calendar-alt me-2"></i>
+                    School Years
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link
                     href="/admin/subjects"
                     class="nav-link text-white-50"
                     :class="{ 'active text-white': $page.url.startsWith('/admin/subjects') }"
@@ -112,17 +123,6 @@
                   >
                     <i class="fas fa-layer-group me-2"></i>
                     Sections
-                  </Link>
-                </li>
-                <li class="nav-item">
-                  <Link
-                    href="/admin/school-years"
-                    class="nav-link text-white-50"
-                    :class="{ 'active text-white': $page.url.startsWith('/admin/school-years') }"
-                    @click="closeSidebarOnMobile"
-                  >
-                    <i class="fas fa-calendar-alt me-2"></i>
-                    School Years
                   </Link>
                 </li>
                 <li class="nav-item">

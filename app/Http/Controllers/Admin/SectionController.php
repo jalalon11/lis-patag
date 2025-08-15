@@ -47,7 +47,7 @@ class SectionController extends Controller
     {
         $request->validate([
             'section_name' => 'required|string|max:255',
-            'grade_level' => 'required|in:Kindergarten,Grade 1,Grade 2,Grade 3,Grade 4,Grade 5,Grade 6',
+            'grade_level' => 'required|integer|in:0,1,2,3,4,5,6', // Changed to integer validation
             'capacity' => 'required|integer|min:1|max:50',
             'school_year_id' => 'required|exists:school_years,id',
             'adviser_id' => 'nullable|exists:teachers,id',
@@ -58,7 +58,7 @@ class SectionController extends Controller
 
         Section::create([
             'section_name' => $request->section_name,
-            'grade_level' => $request->grade_level,
+            'grade_level' => (int) $request->grade_level, // Ensure it's stored as integer
             'capacity' => $request->capacity,
             'current_enrollment' => 0,
             'school_year_id' => $request->school_year_id,
@@ -106,7 +106,7 @@ class SectionController extends Controller
     {
         $request->validate([
             'section_name' => 'required|string|max:255',
-            'grade_level' => 'required|in:Kindergarten,Grade 1,Grade 2,Grade 3,Grade 4,Grade 5,Grade 6',
+            'grade_level' => 'required|integer|in:0,1,2,3,4,5,6', // Changed to integer validation
             'capacity' => 'required|integer|min:1|max:50',
             'school_year_id' => 'required|exists:school_years,id',
             'adviser_id' => 'nullable|exists:teachers,id',
@@ -117,7 +117,7 @@ class SectionController extends Controller
 
         $section->update([
             'section_name' => $request->section_name,
-            'grade_level' => $request->grade_level,
+            'grade_level' => (int) $request->grade_level, // Ensure it's stored as integer
             'capacity' => $request->capacity,
             'school_year_id' => $request->school_year_id,
             'adviser_id' => $request->adviser_id,
@@ -144,5 +144,23 @@ class SectionController extends Controller
 
         return redirect()->route('admin.sections.index')
             ->with('success', 'Section deleted successfully.');
+    }
+
+    /**
+     * Helper method to get grade level display name
+     */
+    public static function getGradeLevelName($level)
+    {
+        $gradeMap = [
+            0 => 'Kindergarten',
+            1 => 'Grade 1',
+            2 => 'Grade 2',
+            3 => 'Grade 3',
+            4 => 'Grade 4',
+            5 => 'Grade 5',
+            6 => 'Grade 6'
+        ];
+
+        return $gradeMap[$level] ?? 'Unknown';
     }
 }

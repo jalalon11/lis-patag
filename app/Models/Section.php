@@ -29,6 +29,10 @@ class Section extends Model
         return $this->belongsTo(SchoolYear::class);
     }
 
+    public function schedule()
+    {
+        return $this->hasMany(Schedule::class);
+    }
     public function adviser(): BelongsTo
     {
         return $this->belongsTo(Teacher::class, 'adviser_id');

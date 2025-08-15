@@ -49,6 +49,11 @@ class Teacher extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function teacherSubjectSection()
+    {
+        return $this->belongsTo(TeacherSubjectSection::class);
+    }
+
     // Accessor for full name (from related user)
     public function getFullNameAttribute()
     {

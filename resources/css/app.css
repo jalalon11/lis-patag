@@ -6,7 +6,7 @@
 
 /* Custom CSS Variables for Professional Color Scheme */
 :root {
-    --primary-color: #2c5aa0;      /* Professional Blue */
+    --primary-color: #0d6efd;      /* Professional Blue */
     --secondary-color: #28a745;    /* Success Green */
     --accent-color: #ffc107;       /* Warning Yellow */
     --dark-color: #343a40;         /* Dark Gray */
@@ -16,26 +16,12 @@
     --text-muted: #6c757d;
 }
 
-/* Override Bootstrap primary colors */
-.btn-primary {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.btn-primary:hover {
-    background-color: #1e3d6f;
-    border-color: #1e3d6f;
-}
-
-.bg-primary {
-    background-color: var(--primary-color) !important;
-}
 .bg-mute {
     background-color: var(--text-muted);
 }
 
-.text-primary {
-    color: var(--primary-color) !important;
+.text-xs {
+    font-size: 0.8rem;
 }
 
 /* Custom styles for the LIS */

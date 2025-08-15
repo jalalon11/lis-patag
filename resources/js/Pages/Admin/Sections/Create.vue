@@ -49,6 +49,7 @@
                         </div>
                       </div>
                     </div>
+                    <!-- Replace the grade_level select dropdown with this updated version -->
                     <div class="col-md-6">
                       <div class="form-floating">
                         <select
@@ -59,13 +60,13 @@
                           required
                         >
                           <option value="">Select Grade Level</option>
-                          <option value="Kindergarten">Kindergarten</option>
-                          <option value="Grade 1">Grade 1</option>
-                          <option value="Grade 2">Grade 2</option>
-                          <option value="Grade 3">Grade 3</option>
-                          <option value="Grade 4">Grade 4</option>
-                          <option value="Grade 5">Grade 5</option>
-                          <option value="Grade 6">Grade 6</option>
+                          <option value="0">Kindergarten</option>
+                          <option value="1">Grade 1</option>
+                          <option value="2">Grade 2</option>
+                          <option value="3">Grade 3</option>
+                          <option value="4">Grade 4</option>
+                          <option value="5">Grade 5</option>
+                          <option value="6">Grade 6</option>
                         </select>
                         <label for="grade_level" class="form-label">
                           Grade Level <span class="text-danger">*</span>

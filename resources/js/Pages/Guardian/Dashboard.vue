@@ -8,8 +8,8 @@
             <div class="card-body py-4">
               <div class="d-flex align-items-center">
                 <div class="me-3">
-                  <i class="fas fa-home fa-3x opacity-75"></i>
-                </div>
+                  <img src="/storage/Patag_ES-Logo.png" alt="Patag Elementary School Logo" style="width: 4rem; height: auto;">
+              </div>
                 <div>
                   <h3 class="mb-1">Welcome to Parent Portal</h3>
                   <p class="mb-0 opacity-90">Stay connected with your children's academic journey at Patag Elementary School</p>

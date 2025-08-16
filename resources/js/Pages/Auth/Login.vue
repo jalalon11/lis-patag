@@ -4,12 +4,13 @@
       <div class="col-lg-4 col-md-6 col-sm-8">
         <div class="card border-0 shadow-sm">
           <div class="card-body p-4">
+            
             <!-- Header -->
             <div class="text-center mb-4">
               <div class="logo mb-3">
-                <i class="fas fa-school text-primary" style="font-size: 2.5rem;"></i>
+                <img src="/storage/Patag_ES-Logo.png" alt="Patag Elementary School Logo" style="width: 4rem; height: auto;">
               </div>
-              <h1 class="h4 fw-bold text-dark">Patal Elementary School</h1>
+              <h1 class="h4 fw-bold text-dark">Patag Elementary School</h1>
               <p class="text-muted small">Please sign in to your account</p>
             </div>
 
@@ -266,8 +267,8 @@ export default {
     padding: 2rem 1.5rem;
   }
 
-  .logo i {
-    font-size: 2rem !important;
+  .logo img {
+    width: 2rem !important;
   }
 
   .h4 {

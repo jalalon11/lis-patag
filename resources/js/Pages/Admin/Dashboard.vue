@@ -15,8 +15,8 @@
               </div>
               <div class="col-md-4 text-end">
                 <div class="welcome-icon">
-                  <i class="fas fa-school"></i>
-                </div>
+                  <img src="/storage/Patag_ES-Logo.png" alt="Patag Elementary School Logo" style="width: 4rem; height: auto;">
+              </div>
               </div>
             </div>
           </div>
@@ -279,8 +279,22 @@ export default {
 }
 
 .welcome-icon {
-  font-size: 4rem;
-  opacity: 0.2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.logo-image {
+  width: 4rem; 
+  height: auto;
+  opacity: 1; 
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .logo-image {
+    width: 3rem; /* Matches responsive font-size: 3rem */
+  }
 }
 
 /* Statistics Cards */

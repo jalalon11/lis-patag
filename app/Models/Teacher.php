@@ -23,7 +23,6 @@ class Teacher extends Model
         'department',
         'hire_date',
         'employment_status',
-        'salary',
         'qualifications',
         'certifications'
     ];
@@ -31,7 +30,6 @@ class Teacher extends Model
     protected $casts = [
         'birth_date' => 'date',
         'hire_date' => 'date',
-        'salary' => 'decimal:2',
     ];
 
     protected $appends = [

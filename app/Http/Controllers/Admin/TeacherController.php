@@ -67,7 +67,6 @@ class TeacherController extends Controller
             'department' => 'nullable|string|max:255',
             'hire_date' => 'required|date',
             'employment_status' => 'required|in:Active,Inactive,Resigned,Terminated',
-            'salary' => 'nullable|numeric|min:0',
             'qualifications' => 'nullable|string',
             'certifications' => 'nullable|string',
         ]);
@@ -146,7 +145,6 @@ class TeacherController extends Controller
             'department' => 'nullable|string|max:255',
             'hire_date' => 'required|date',
             'employment_status' => 'required|in:Active,Inactive,Resigned,Terminated',
-            'salary' => 'nullable|numeric|min:0',
             'qualifications' => 'nullable|string',
             'certifications' => 'nullable|string',
         ]);
@@ -172,7 +170,6 @@ class TeacherController extends Controller
             'department' => $request->department,
             'hire_date' => $request->hire_date,
             'employment_status' => $request->employment_status,
-            'salary' => $request->salary,
             'qualifications' => $request->qualifications,
             'certifications' => $request->certifications,
         ]);

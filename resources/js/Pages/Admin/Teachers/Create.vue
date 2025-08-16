@@ -326,26 +326,6 @@
                         </div>
                       </div>
                     </div>
-                    <!-- <div class="col-md-6">
-                      <div class="form-floating">
-                        <input
-                          id="salary"
-                          v-model="form.salary"
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          class="form-control"
-                          :class="{ 'is-invalid': form.errors.salary }"
-                          placeholder="Salary"
-                        />
-                        <label for="salary" class="form-label">
-                          Salary
-                        </label>
-                        <div v-if="form.errors.salary" class="invalid-feedback">
-                          {{ form.errors.salary }}
-                        </div>
-                      </div>
-                    </div> -->
                   </div>
                 </div>
 
@@ -455,7 +435,6 @@ export default {
         department: '',
         hire_date: '',
         employment_status: 'Active',
-        salary: '',
         qualifications: '',
         certifications: '',
       })

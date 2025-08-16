@@ -151,13 +151,6 @@
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <!-- <div class="info-item mb-3" v-if="teacher.salary">
-                      <label class="fw-bold text-muted small">SALARY</label>
-                      <div class="mt-1 text-dark">
-                        <i class="fas fa-money-bill-wave me-2 text-muted"></i>
-                        ₱{{ Number(teacher.salary).toLocaleString() }}
-                      </div>
-                    </div> -->
                     <div class="info-item mb-3" v-if="teacher.qualifications">
                       <label class="fw-bold text-muted small">QUALIFICATIONS</label>
                       <div class="mt-1 text-dark">

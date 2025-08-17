@@ -32,11 +32,11 @@
               <div class="col-auto">
                 <button
                   type="button"
-                  class="card border-0 bg-mute text-white text-center"
+                  class="btn btn-md btn-primary-soft text-center"
                   :class="{ 'bg-primary text-white': selectedGrade === 'all' }"
                   @click="setGradeFilter('all')"
                 >
-                  <div class="card-body p-2">
+                  <div class="">
                     <h6 class="mb-0">All Grades</h6>
                   </div>
                 </button>
@@ -44,11 +44,11 @@
               <div v-for="grade in availableGrades" :key="grade" class="col-auto">
                 <button
                   type="button"
-                  class="card border-0 bg-mute text-white text-center"
+                  class="btn btn-md btn-primary-soft text-center"
                   :class="{ 'bg-primary text-white': selectedGrade === grade }"
                   @click="setGradeFilter(grade)"
                 >
-                  <div class="card-body p-2">
+                  <div class="">
                     <h6 class="mb-0">Grade {{ grade }}</h6>
                   </div>
                 </button>
@@ -147,7 +147,7 @@
                 <th scope="col">Type</th>
                 <th scope="col">Units</th>
                 <th scope="col">Curriculum Year</th>
-                <th scope="col" class="text-end">Actions</th>
+                <th scope="col" >Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -169,31 +169,31 @@
                 </td>
                 <td>{{ subject.units }} {{ subject.units === 1 ? 'unit' : 'units' }}</td>
                 <td>{{ subject.curriculum_year }}</td>
-                <td class="text-end">
-                  <div class="dropdown">
-                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                      <i class="fas fa-ellipsis-v"></i>
+                <td >
+                  <div class="btn-group" role="group">
+                    <Link 
+                      :href="`/admin/subjects/${subject.id}`" 
+                      class="btn btn-sm btn-outline-primary"
+                    >
+                      <i class="fas fa-eye me-1"></i>
+                    </Link>
+
+                    <Link 
+                      :href="`/admin/subjects/${subject.id}/edit`" 
+                      class="btn btn-sm btn-outline-primary"
+                    >
+                      <i class="fas fa-edit me-1"></i>
+                    </Link>
+
+                    <button 
+                      @click="confirmDelete(subject)" 
+                      class="btn btn-sm btn-outline-primary"
+                    >
+                      <i class="fas fa-trash me-1"></i>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      <li>
-                        <Link :href="`/admin/subjects/${subject.id}`" class="dropdown-item">
-                          <i class="fas fa-eye me-2"></i>View
-                        </Link>
-                      </li>
-                      <li>
-                        <Link :href="`/admin/subjects/${subject.id}/edit`" class="dropdown-item">
-                          <i class="fas fa-edit me-2"></i>Edit
-                        </Link>
-                      </li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li>
-                        <button @click="confirmDelete(subject)" class="dropdown-item text-danger">
-                          <i class="fas fa-trash me-2"></i>Delete
-                        </button>
-                      </li>
-                    </ul>
                   </div>
                 </td>
+
               </tr>
             </tbody>
           </table>
@@ -380,11 +380,6 @@ methods: {
 @media (max-width: 768px) {
   .btn-group {
     flex-direction: column;
-  }
-  
-  .btn-group .btn {
-    border-radius: 0.375rem !important;
-    margin-bottom: 0.5rem;
   }
 }
 </style>

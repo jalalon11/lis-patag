@@ -3,7 +3,7 @@
     <!-- Sidebar -->
     <nav class="sidebar bg-primary text-white position-fixed" :class="{ 'show': sidebarOpen }">
       <!-- Sidebar Header -->
-      <div class="p-3 border-bottom border-light border-opacity-25">
+      <div class="p-3 border-bottom border-light border-opacity-25 sidebar-header">
         <div class="d-flex align-items-center">
           <div>
             <h5 class="mb-0 fw-bold">Patag Elementary</h5>
@@ -19,7 +19,7 @@
       </div>
 
       <!-- Navigation Menu -->
-      <div class="flex-grow-1 overflow-auto">
+      <div class="sidebar-content">
         <ul class="nav nav-pills flex-column p-2">
           <!-- Dashboard -->
           <li class="nav-item">
@@ -238,7 +238,7 @@
       </div>
 
       <!-- Sidebar Footer -->
-      <div class="p-3 border-top border-light border-opacity-25">
+      <div class="p-3 border-top border-light border-opacity-25 sidebar-footer">
         <Link
           href="/logout"
           method="post"
@@ -274,7 +274,7 @@
           <h5 class="mb-0 text-primary fw-bold">{{ pageTitle || 'Dashboard' }}</h5>
 
           <div class="ms-auto">
-            <div class="dropdown">
+            <div class="dropdown position-relative">
               <button
                 class="btn btn-link text-decoration-none dropdown-toggle d-flex align-items-center"
                 @click="toggleUserDropdown"
@@ -285,7 +285,7 @@
                 </div>
                 <span class="text-dark">{{ $page.props.auth.user.name }}</span>
               </button>
-              <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm" :class="{ 'show': userDropdownOpen }">
+              <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm position-absolute" :class="{ 'show': userDropdownOpen }">
                 <li>
                   <Link href="/admin/profile" class="dropdown-item" @click="closeUserDropdown">
                     <i class="fas fa-user me-2"></i>
@@ -338,8 +338,8 @@ export default {
       sidebarOpen: true, // Start with sidebar open on desktop
       accountsMenuOpen: false,
       curriculaMenuOpen: false,
+      admissionMenuOpen: false, // Added this missing property
       reportsMenuOpen: false,
-      admissionMenuOpen: false,
       userDropdownOpen: false,
       isMobile: false
     }
@@ -367,11 +367,11 @@ export default {
         case 'curricula':
           this.curriculaMenuOpen = !this.curriculaMenuOpen
           break
+        case 'admission': // Added this missing case
+          this.admissionMenuOpen = !this.admissionMenuOpen
+          break
         case 'reports':
           this.reportsMenuOpen = !this.reportsMenuOpen
-          break
-        case 'admission':
-          this.admissionMenuOpen = !this.admissionMenuOpen
           break
       }
     },
@@ -412,6 +412,8 @@ export default {
       } else if (currentUrl.startsWith('/admin/subjects') || currentUrl.startsWith('/admin/sections') ||
                  currentUrl.startsWith('/admin/school-years') || currentUrl.startsWith('/admin/schedules')) {
         this.curriculaMenuOpen = true
+      } else if (currentUrl.startsWith('/admin/admission') || currentUrl.startsWith('/admin/enrollment')) {
+        this.admissionMenuOpen = true // Added this condition
       } else if (currentUrl.startsWith('/admin/reports')) {
         this.reportsMenuOpen = true
       }
@@ -440,6 +442,43 @@ export default {
   left: 0;
   z-index: 1050;
   transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar structure */
+.sidebar-header {
+  flex-shrink: 0;
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+.sidebar-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.sidebar-footer {
+  flex-shrink: 0;
 }
 
 /* Mobile: sidebar is fixed and hidden by default */
@@ -478,9 +517,6 @@ export default {
     margin-left: 0;
   }
 }
-
-/* Sidebar Styling - Using Bootstrap Primary Blue */
-
 
 /* Top-level nav items */
 .sidebar .nav-link {
@@ -564,5 +600,39 @@ export default {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.5);
   color: #ffffff;
+}
+
+/* User dropdown positioning */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute !important;
+  top: 100% !important;
+  right: 0 !important;
+  left: auto !important;
+  z-index: 1000;
+  min-width: 200px;
+  transform: translateX(0) !important;
+  margin-top: 8px;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+/* Prevent horizontal overflow */
+.navbar .container-fluid {
+  overflow: visible;
+}
+
+/* Ensure dropdown doesn't cause horizontal scroll */
+@media (max-width: 576px) {
+  .dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+    min-width: 180px;
+  }
 }
 </style>

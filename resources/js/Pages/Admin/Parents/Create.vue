@@ -10,7 +10,7 @@
                 <!-- Personal Information -->
                 <div class="mb-4">
                   <h5 class="fw-bold text-primary mb-3">
-                    <i class="fas fa-user-circle me-1"></i> Personal Information
+                    Personal Information
                   </h5>
                   <div class="row g-3">
                     <div class="col-md-6">
@@ -178,7 +178,7 @@
                 <!-- Security Information -->
                 <div class="mb-4">
                   <h5 class="fw-bold text-primary mb-3">
-                    <i class="fas fa-shield-alt me-1"></i> Security Information
+                    Security Information
                   </h5>
                   <div class="row g-3">
                     <div class="col-md-6">
@@ -198,7 +198,7 @@
                         </label>
                         <button
                           type="button"
-                          class="btn btn-outline-secondary btn-sm position-absolute top-50 end-0 translate-middle-y me-2"
+                          class="btn btn-text-secondary border-0 btn-sm position-absolute top-50 end-0 translate-middle-y me-2"
                           @click="togglePasswordVisibility"
                           aria-label="Toggle password visibility"
                         >
@@ -235,21 +235,14 @@
                   </div>
                 </div>
 
-                <!-- Information Alert -->
-                <div class="alert alert-info alert-dismissible fade show small mb-4" role="alert">
-                  <i class="fas fa-info-circle me-2"></i>
-                  Login credentials will be sent via email. The parent/guardian can change their password after first login.
-                  <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-
                 <!-- Action Buttons -->
                 <div class="d-flex justify-content-end gap-2 pt-3 border-top">
-                  <Link href="/admin/parents" class="btn btn-outline-secondary btn-sm px-3">
+                  <Link href="/admin/parents" class="btn btn-primary-soft btn-md px-3">
                     Cancel
                   </Link>
                   <button
                     type="submit"
-                    class="btn btn-primary btn-sm px-4"
+                    class="btn btn-primary btn-md px-4"
                     :disabled="form.processing"
                     aria-label="Create parent/guardian"
                   >

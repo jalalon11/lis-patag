@@ -9,11 +9,11 @@
               <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                   <h4 class="fw-bold text-primary mb-1">
-                    <i class="fas fa-table me-2"></i> Bulk Add Subjects
+                    Bulk Add Subjects
                   </h4>
                   <p class="text-muted mb-0">Add multiple subjects at once using the table format</p>
                 </div>
-                <Link href="/admin/subjects/create" class="btn btn-outline-secondary btn-sm">
+                <Link href="/admin/subjects/create" class="btn btn-outline-secondary btn-md">
                   <i class="fas fa-plus me-1"></i> Single Add
                 </Link>
               </div>
@@ -61,7 +61,7 @@
                 <!-- Table -->
                 <div class="table-responsive">
                   <table class="table table-bordered table-hover">
-                    <thead>
+                    <thead class="bg-primary text-white">
                       <tr>
                         <th style="width: 120px;">Subject Code <span class="text-danger">*</span></th>
                         <th style="width: 200px;">Subject Name <span class="text-danger">*</span></th>
@@ -206,14 +206,14 @@
 
                 <!-- Add Row Button -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
+                  <small class="text-muted">{{ form.subjects.length }} subject(s) to be created</small>
                   <button
                     type="button"
-                    class="btn btn-outline-primary btn-sm"
+                    class="btn btn-outline-primary btn-md"
                     @click="addSubject"
                   >
-                    <i class="fas fa-plus me-1"></i> Add Another Subject
+                    <i class="fas fa-plus me-1"></i> Add row
                   </button>
-                  <small class="text-muted">{{ form.subjects.length }} subject(s) to be created</small>
                 </div>
 
                 <!-- Quick Add Templates -->
@@ -263,12 +263,12 @@
 
                 <!-- Action Buttons -->
                 <div class="d-flex justify-content-end gap-2 pt-3 border-top">
-                  <Link href="/admin/subjects" class="btn btn-outline-secondary btn-sm px-3">
+                  <Link href="/admin/subjects" class="btn btn-primary-soft btn-md px-3">
                     Cancel
                   </Link>
                   <button
                     type="submit"
-                    class="btn btn-primary btn-sm px-4"
+                    class="btn btn-primary btn-md px-4"
                     :disabled="form.processing || form.subjects.length === 0"
                     aria-label="Create subjects"
                   >
@@ -495,7 +495,6 @@ export default {
 
 .table th {
   background-color: rgba(44, 90, 160, 0.1);
-  color: var(--text-dark);
   font-weight: 600;
   border-color: rgba(44, 90, 160, 0.2);
 }

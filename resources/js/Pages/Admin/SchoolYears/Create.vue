@@ -6,21 +6,12 @@
         <div class="col-lg-8 col-md-10">
           <div class="card border-0 shadow-sm">
             <div class="card-body p-4">
-              <!-- Action Buttons -->
-              <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="fw-bold text-primary mb-0">
-                  <i class="fas fa-calendar me-2"></i> Add New School Year
-                </h4>
-                <Link href="/admin/school-years" class="btn btn-outline-secondary btn-sm px-3">
-                  <i class="fas fa-arrow-left me-1"></i> Back to School Years
-                </Link>
-              </div>
 
               <form @submit.prevent="submit">
                 <!-- Basic Information -->
                 <div class="mb-4">
                   <h5 class="fw-bold text-primary mb-3">
-                    <i class="fas fa-info-circle me-1"></i> Basic Information
+                    Basic Information
                   </h5>
                   <div class="row g-3">
                     <div class="col-md-6">
@@ -148,12 +139,12 @@
 
                 <!-- Action Buttons -->
                 <div class="d-flex justify-content-end gap-2 pt-3 border-top">
-                  <Link href="/admin/school-years" class="btn btn-outline-secondary btn-sm px-3">
+                  <Link href="/admin/school-years" class="btn btn-primary-soft btn-md">
                     Cancel
                   </Link>
                   <button
                     type="submit"
-                    class="btn btn-primary btn-sm px-4"
+                    class="btn btn-primary btn-md"
                     :disabled="form.processing"
                     aria-label="Create school year"
                   >

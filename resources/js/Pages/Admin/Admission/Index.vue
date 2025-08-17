@@ -1,25 +1,6 @@
 <template>
   <AdminLayout page-title="Student Admission">
     <div class="container-fluid py-3">
-      <!-- Header Section -->
-      <div class="row mb-4 align-items-center">
-        <div class="col-md-8">
-          <h2 class="fw-bold text-primary mb-2">
-            <i class="fas fa-user-plus me-3"></i>
-            Student Admission
-          </h2>
-          <p class="text-muted mb-0">Enroll new students for {{ currentSchoolYear?.year_name || '2024-2025' }}</p>
-        </div>
-        <div class="col-md-4 text-end">
-          <div class="card border-0 bg-gradient-primary text-white shadow-sm">
-            <div class="card-body py-2 px-3">
-              <small class="d-block">Current School Year</small>
-              <strong>{{ currentSchoolYear?.year_name || '2024-2025' }}</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Admission Form -->
       <div class="row justify-content-center">
         <div class="col-lg-10 col-md-12">
@@ -452,12 +433,12 @@
 
                 <!-- Action Buttons -->
                 <div class="d-flex justify-content-end gap-2 pt-3 border-top">
-                  <Link href="/admin/students" class="btn btn-outline-secondary btn-sm px-3">
+                  <Link href="/admin/students" class="btn btn-primary-soft btn-md px-3">
                     Cancel
                   </Link>
                   <button
                     type="submit"
-                    class="btn btn-primary btn-sm px-4"
+                    class="btn btn-primary btn-md px-4"
                     :disabled="form.processing"
                     aria-label="Enroll student"
                   >
@@ -631,11 +612,6 @@ export default {
   background: var(--primary-color);
   opacity: 0.7;
   cursor: not-allowed;
-}
-
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(44, 90, 160, 0.2);
 }
 
 .btn-outline-secondary {

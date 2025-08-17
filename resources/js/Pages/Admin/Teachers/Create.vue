@@ -10,7 +10,7 @@
                 <!-- Basic Information -->
                 <div class="mb-4">
                   <h5 class="fw-bold text-primary mb-3">
-                    <i class="fas fa-user-circle me-1"></i> Basic Information
+                    Basic Information
                   </h5>
                   <div class="row g-3">
                     <div class="col-md-6">
@@ -57,7 +57,7 @@
                 <!-- Personal Information -->
                 <div class="mb-4">
                   <h5 class="fw-bold text-primary mb-3">
-                    <i class="fas fa-id-card me-1"></i> Personal Information
+                    Personal Information
                   </h5>
                   <div class="row g-3">
                     <div class="col-md-4">
@@ -79,24 +79,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-3">
-                      <div class="form-floating">
-                        <input
-                          id="middle_name"
-                          v-model="form.middle_name"
-                          type="text"
-                          class="form-control"
-                          :class="{ 'is-invalid': form.errors.middle_name }"
-                          placeholder="Middle Name"
-                        />
-                        <label for="middle_name" class="form-label">
-                          Middle Name
-                        </label>
-                        <div v-if="form.errors.middle_name" class="invalid-feedback">
-                          {{ form.errors.middle_name }}
-                        </div>
-                      </div>
-                    </div>
+
                     <div class="col-md-4">
                       <div class="form-floating">
                         <input
@@ -116,7 +99,25 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-2">
+                      <div class="form-floating">
+                        <input
+                          id="middle_name"
+                          v-model="form.middle_name"
+                          type="text"
+                          class="form-control"
+                          :class="{ 'is-invalid': form.errors.middle_name }"
+                          placeholder="Middle Name"
+                        />
+                        <label for="middle_name" class="form-label">
+                          Middle Name
+                        </label>
+                        <div v-if="form.errors.middle_name" class="invalid-feedback">
+                          {{ form.errors.middle_name }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
                       <div class="form-floating">
                         <input
                           id="suffix"
@@ -198,7 +199,7 @@
                 <!-- Contact Information -->
                 <div class="mb-4">
                   <h5 class="fw-bold text-primary mb-3">
-                    <i class="fas fa-phone me-1"></i> Contact Information
+                    Contact Information
                   </h5>
                   <div class="row g-3">
                     <div class="col-md-6">
@@ -245,7 +246,7 @@
                 <!-- Employment Information -->
                 <div class="mb-4">
                   <h5 class="fw-bold text-primary mb-3">
-                    <i class="fas fa-briefcase me-1"></i> Employment Information
+                    Employment Information
                   </h5>
                   <div class="row g-3">
                     <div class="col-md-6">
@@ -332,7 +333,7 @@
                 <!-- Qualifications -->
                 <div class="mb-4">
                   <h5 class="fw-bold text-primary mb-3">
-                    <i class="fas fa-graduation-cap me-1"></i> Qualifications
+                    Qualifications
                   </h5>
                   <div class="row g-3">
                     <div class="col-12">
@@ -376,12 +377,12 @@
 
                 <!-- Action Buttons -->
                 <div class="d-flex justify-content-end gap-2 pt-3 border-top">
-                  <Link href="/admin/teachers" class="btn btn-outline-secondary btn-sm px-3">
+                  <Link href="/admin/teachers" class="btn btn-primary-soft btn-md px-3">
                     Cancel
                   </Link>
                   <button
                     type="submit"
-                    class="btn btn-primary btn-sm px-4"
+                    class="btn btn-primary btn-md px-4"
                     :disabled="form.processing"
                     aria-label="Create teacher"
                   >

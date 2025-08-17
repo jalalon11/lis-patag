@@ -10,8 +10,8 @@
       </div>
       <div class="col-md-4 text-end">
         <Link
-          href="/admin/school-years/create "
-          class="btn btn-primary btn-sm px-3 shadow-sm"
+          href="/admin/school-years/create"
+          class="btn btn-primary btn-md shadow-sm"
         >
           <i class="fas fa-plus me-1"></i>
           Add School Year
@@ -32,11 +32,11 @@
               <div class="col-auto">
                 <button
                   type="button"
-                  class="card border-0 bg-mute text-white text-center"
+                  class="btn btn-md btn-primary-soft text-center"
                   :class="{ 'bg-primary text-white': selectedStatus === 'all' }"
                   @click="setStatusFilter('all')"
                 >
-                  <div class="card-body p-2">
+                  <div class="">
                     <h6 class="mb-0">All Status</h6>
                   </div>
                 </button>
@@ -44,11 +44,11 @@
               <div class="col-auto">
                 <button
                   type="button"
-                  class="card border-0 bg-mute text-white text-center"
+                  class="btn btn-md btn-primary-soft text-center"
                   :class="{ 'bg-primary text-white': selectedStatus === 'current' }"
                   @click="setStatusFilter('current')"
                 >
-                  <div class="card-body p-2">
+                  <div>
                     <h6 class="mb-0">Current</h6>
                   </div>
                 </button>
@@ -56,11 +56,11 @@
               <div class="col-auto">
                 <button
                   type="button"
-                  class="card border-0 bg-mute text-white text-center"
+                  class="btn btn-md btn-primary-soft text-center"
                   :class="{ 'bg-primary text-white': selectedStatus === 'active' }"
                   @click="setStatusFilter('active')"
                 >
-                  <div class="card-body p-2">
+                  <div >
                     <h6 class="mb-0">Active</h6>
                   </div>
                 </button>
@@ -68,8 +68,8 @@
             </div>
           </div>
           <!-- Search Bar -->
-          <div>
-            <div class="input-group">
+          <div class="d-flex">
+            <div class="input-group me-2">
               <span class="input-group-text bg-light border-end-0">
                 <i class="fas fa-search text-muted"></i>
               </span>
@@ -162,28 +162,28 @@
                   </span>
                 </td>
                 <td class="text-end">
-                  <div class="dropdown">
-                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                      <i class="fas fa-ellipsis-v"></i>
+                  <div class="btn-group" role="group">
+                    <Link 
+                      :href="`/admin/school-years/${schoolYear.id}`" 
+                      class="btn btn-outline-primary btn-sm"
+                      title="View"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </Link>
+                    <Link 
+                      :href="`/admin/school-years/${schoolYear.id}/edit`" 
+                      class="btn btn-outline-primary btn-sm"
+                      title="Edit"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </Link>
+                    <button 
+                      @click="confirmDelete(schoolYear)" 
+                      class="btn btn-outline-primary btn-sm"
+                      title="Delete"
+                    >
+                      <i class="fas fa-trash"></i>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      <li>
-                        <Link :href="`/admin/school-years/${schoolYear.id}`" class="dropdown-item">
-                          <i class="fas fa-eye me-2"></i>View
-                        </Link>
-                      </li>
-                      <li>
-                        <Link :href="`/admin/school-years/${schoolYear.id}/edit`" class="dropdown-item">
-                          <i class="fas fa-edit me-2"></i>Edit
-                        </Link>
-                      </li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li>
-                        <button @click="confirmDelete(schoolYear)" class="dropdown-item text-danger">
-                          <i class="fas fa-trash me-2"></i>Delete
-                        </button>
-                      </li>
-                    </ul>
                   </div>
                 </td>
               </tr>
@@ -250,7 +250,6 @@ const { schoolYears } = defineProps({
     default: () => []
   }
 });
-
 
 const searchQuery = ref('');
 const selectedStatus = ref('all');
@@ -369,4 +368,5 @@ if (window.$page?.props?.flash?.error) {
 .bg-danger-soft {
   background-color: rgba(220, 53, 69, 0.1);
 }
+
 </style>

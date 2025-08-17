@@ -6,7 +6,8 @@
 
 /* Custom CSS Variables for Professional Color Scheme */
 :root {
-    --primary-color: #0d6efd;      /* Professional Blue */
+    --primary-color: #0d6efd; 
+    --primary-color-soft: #d8e8ff;
     --secondary-color: #28a745;    /* Success Green */
     --accent-color: #ffc107;       /* Warning Yellow */
     --dark-color: #343a40;         /* Dark Gray */
@@ -19,6 +20,12 @@
 .bg-mute {
     background-color: var(--text-muted);
 }
+
+.btn-primary-soft {
+    background-color: var(--primary-color-soft);
+    color: var(--primary-color);
+}
+
 
 .text-xs {
     font-size: 0.8rem;

@@ -51,6 +51,12 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     // Admission
     Route::get('/admission', [AdmissionController::class, 'index'])->name('admission.index');
     Route::post('/admission', [AdmissionController::class, 'store'])->name('admission.store');
+    
+    // Enrollment
+    Route::get('/enrollment', [\App\Http\Controllers\Admin\EnrollmentController::class, 'index'])->name('enrollment.index');
+    Route::put('/enrollment/{enrollment}/status', [\App\Http\Controllers\Admin\EnrollmentController::class, 'updateStatus'])->name('enrollment.update-status');
+    Route::put('/enrollment/{enrollment}/transfer', [\App\Http\Controllers\Admin\EnrollmentController::class, 'transferSection'])->name('enrollment.transfer-section');
+    
     //schedules
     Route::resource('schedules', App\Http\Controllers\Admin\ScheduleController::class);
     // Reports
@@ -69,6 +75,17 @@ Route::middleware(['auth', 'verified'])->prefix('parent')->name('parent.')->grou
 
 // Teacher Routes (Protected)
 Route::middleware(['auth', 'verified'])->prefix('teacher')->name('teacher.')->group(function () {
-    // Dashboard parents
+    // Dashboard
     Route::get('/dashboard', [TeacherDashboardController::class, 'index'])->name('dashboard');
+    
+    // Enrollment Routes
+    Route::get('/enrollment', [\App\Http\Controllers\Teachers\TeacherEnrollmentController::class, 'index'])->name('enrollment');
+    Route::post('/enrollment', [\App\Http\Controllers\Teachers\TeacherEnrollmentController::class, 'store'])->name('enrollment.store');
+    Route::delete('/enrollment/{enrollment}', [\App\Http\Controllers\Teachers\TeacherEnrollmentController::class, 'removeStudent'])->name('enrollment.remove-student');
+    
+    // Assessment Routes
+    Route::prefix('assessment')->name('assessment.')->group(function () {
+        Route::get('/grade-assessment', [TeacherDashboardController::class, 'gradeAssessment'])->name('grade-assessment');
+        // Other assessment routes can be added here
+    });
 });

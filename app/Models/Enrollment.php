@@ -13,11 +13,15 @@ class Enrollment extends Model
         'school_year_id',
         'enrollment_date',
         'status',
+        'enrollment_type',
+        'date_dropped',
+        'reason_for_status_change',
         'remarks',
     ];
 
     protected $casts = [
         'enrollment_date' => 'date',
+        'date_dropped' => 'date',
     ];
 
     public function student(): BelongsTo

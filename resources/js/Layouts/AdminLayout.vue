@@ -142,15 +142,44 @@
 
           <!-- Student Admission -->
           <li class="nav-item">
-            <Link
-              href="/admin/admission"
-              class="nav-link text-white"
-              :class="{ 'active bg-white bg-opacity-25': $page.url === '/admin/admission' }"
-              @click="closeSidebarOnMobile"
+            <a
+              class="nav-link text-white d-flex justify-content-between align-items-center"
+              :class="{ 'active bg-white bg-opacity-25': admissionMenuOpen }"
+              @click="toggleSubmenu('admission')"
+              role="button"
             >
-              <i class="fas fa-user-plus me-2"></i>
-              Student Admission
-            </Link>
+              <span>
+                <i class="fas fa-user-plus me-2"></i>
+                Student Management
+              </span>
+              <i class="fas fa-chevron-down" :class="{ 'rotate-180': admissionMenuOpen }"></i>
+            </a>
+            <div class="collapse" :class="{ 'show': admissionMenuOpen }">
+              <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                  <Link
+                    href="/admin/admission"
+                    class="nav-link text-white-50"
+                    :class="{ 'active text-white': $page.url.startsWith('/admin/admission') }"
+                    @click="closeSidebarOnMobile"
+                  >
+                    <i class="fas fa-user-plus me-2"></i>
+                    Student Admission
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link
+                    href="/admin/enrollment"
+                    class="nav-link text-white-50"
+                    :class="{ 'active text-white': $page.url.startsWith('/admin/enrollment') }"
+                    @click="closeSidebarOnMobile"
+                  >
+                    <i class="fas fa-user-graduate me-2"></i>
+                    Enrolled Students
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </li>
 
           <!-- Reports -->
@@ -310,6 +339,7 @@ export default {
       accountsMenuOpen: false,
       curriculaMenuOpen: false,
       reportsMenuOpen: false,
+      admissionMenuOpen: false,
       userDropdownOpen: false,
       isMobile: false
     }
@@ -339,6 +369,9 @@ export default {
           break
         case 'reports':
           this.reportsMenuOpen = !this.reportsMenuOpen
+          break
+        case 'admission':
+          this.admissionMenuOpen = !this.admissionMenuOpen
           break
       }
     },

@@ -18,6 +18,7 @@ class AdmissionController extends Controller
     public function index()
     {
         $currentSchoolYear = SchoolYear::where('is_current', true)->first();
+        $allSchoolYears = SchoolYear::orderBy('year_name', 'desc')->get();
         $sections = Section::with('schoolYear')
             ->where('is_active', true)
             ->orderBy('grade_level')
@@ -28,6 +29,7 @@ class AdmissionController extends Controller
         return Inertia::render('Admin/Admission/Index', [
             'sections' => $sections,
             'currentSchoolYear' => $currentSchoolYear,
+            'allSchoolYears' => $allSchoolYears,
             'gradeLevels' => ['Kindergarten', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6']
         ]);
     }
@@ -59,6 +61,7 @@ class AdmissionController extends Controller
             // Academic Information
             'grade_level' => 'required|in:Kindergarten,Grade 1,Grade 2,Grade 3,Grade 4,Grade 5,Grade 6',
             'section_id' => 'required|exists:sections,id',
+            'school_year_id' => 'required|exists:school_years,id',
 
             // Additional Information
             'medical_conditions' => 'nullable|string|max:1000',
@@ -95,13 +98,14 @@ class AdmissionController extends Controller
         ]);
 
         // Create enrollment
-        $currentSchoolYear = SchoolYear::where('is_current', true)->first();
+        $schoolYearId = $request->school_year_id ?? SchoolYear::where('is_current', true)->first()->id;
         Enrollment::create([
             'student_id' => $student->id,
             'section_id' => $request->section_id,
-            'school_year_id' => $currentSchoolYear->id,
+            'school_year_id' => $schoolYearId,
             'enrollment_date' => now()->toDateString(),
             'status' => 'Enrolled',
+            'enrollment_type' => 'Regular',
         ]);
 
         // Update section enrollment count

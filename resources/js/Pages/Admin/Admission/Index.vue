@@ -326,7 +326,27 @@
                     <i class="fas fa-graduation-cap me-1"></i> Academic Information
                   </h5>
                   <div class="row g-3">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                      <div class="form-floating">
+                        <select
+                          id="school_year_id"
+                          v-model="form.school_year_id"
+                          class="form-select"
+                          :class="{ 'is-invalid': form.errors.school_year_id }"
+                          required
+                        >
+                          <option value="">Select School Year</option>
+                          <option v-for="year in allSchoolYears" :key="year.id" :value="year.id">{{ year.year_name }}</option>
+                        </select>
+                        <label for="school_year_id" class="form-label">
+                          School Year <span class="text-danger">*</span>
+                        </label>
+                        <div v-if="form.errors.school_year_id" class="invalid-feedback">
+                          {{ form.errors.school_year_id }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
                       <div class="form-floating">
                         <select
                           id="grade_level"
@@ -347,7 +367,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <div class="form-floating">
                         <select
                           id="section_id"
@@ -464,6 +484,7 @@ export default {
   props: {
     sections: Object,
     currentSchoolYear: Object,
+    allSchoolYears: Array,
     gradeLevels: Array
   },
   data() {
@@ -477,6 +498,8 @@ export default {
         last_name: '',
         suffix: '',
         birth_date: '',
+        // Set current school year as default
+        school_year_id: this.currentSchoolYear?.id || '',
         gender: '',
         address: '',
         contact_number: '',
@@ -505,6 +528,11 @@ export default {
     }
     if (this.$page.props.flash.error) {
       showErrorToast('Error', this.$page.props.flash.error)
+    }
+    
+    // Set current school year as default if not already set
+    if (!this.form.school_year_id && this.currentSchoolYear) {
+      this.form.school_year_id = this.currentSchoolYear.id
     }
   },
   methods: {

@@ -76,6 +76,17 @@
                 </li>
                 <li class="nav-item">
                   <Link
+                    href="/teacher/assessment/grade-assessment"
+                    class="nav-link text-white-50"
+                    :class="{ 'active text-white': $page.url.startsWith('/teacher/assessment/grade-assessment') }"
+                    @click="closeSidebarOnMobile"
+                  >
+                    <i class="fas fa-cog me-2"></i>
+                    Grade Assessment
+                  </Link>
+                </li>
+                <li class="nav-item">
+                  <Link
                     href="/teacher/assessment/observable-values"
                     class="nav-link text-white-50"
                     :class="{ 'active text-white': $page.url.startsWith('/teacher/assessment/observable-values') }"
@@ -85,39 +96,7 @@
                     Observable Values
                   </Link>
                 </li>
-                <li class="nav-item">
-                  <Link
-                    href="/teacher/assessment/quizzes"
-                    class="nav-link text-white-50"
-                    :class="{ 'active text-white': $page.url.startsWith('/teacher/assessment/quizzes') }"
-                    @click="closeSidebarOnMobile"
-                  >
-                    <i class="fas fa-question-circle me-2"></i>
-                    Quizzes
-                  </Link>
-                </li>
-                <li class="nav-item">
-                  <Link
-                    href="/teacher/assessment/assignments"
-                    class="nav-link text-white-50"
-                    :class="{ 'active text-white': $page.url.startsWith('/teacher/assessment/assignments') }"
-                    @click="closeSidebarOnMobile"
-                  >
-                    <i class="fas fa-tasks me-2"></i>
-                    Assignments
-                  </Link>
-                </li>
-                <li class="nav-item">
-                  <Link
-                    href="/teacher/assessment/examinations"
-                    class="nav-link text-white-50"
-                    :class="{ 'active text-white': $page.url.startsWith('/teacher/assessment/examinations') }"
-                    @click="closeSidebarOnMobile"
-                  >
-                    <i class="fas fa-file-alt me-2"></i>
-                    Examinations
-                  </Link>
-                </li>
+
               </ul>
             </div>
           </li>

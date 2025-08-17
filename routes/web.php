@@ -44,8 +44,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('subjects', SubjectController::class);
     Route::resource('sections', SectionController::class);
 
-    Route::get('school-years', [SchoolYearController::class, 'index'])->name('school-years.index');
-    Route::resource('school-years', SchoolYearController::class)->except('get');
+    Route::resource('school-years', SchoolYearController::class);
     Route::resource('schedules', ScheduleController::class);
 
     // Admission

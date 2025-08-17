@@ -91,7 +91,7 @@
             <thead class="table-light">
               <tr>
                 <th class="border-0 ps-4 fw-bold">Section Information</th>
-                <th class="border-0 fw-bold">Grade & Room</th>
+                <th class="border-0 fw-bold">Grade Level</th>
                 <th class="border-0 fw-bold">Enrollment</th>
                 <th class="border-0 fw-bold">Adviser</th>
                 <th class="border-0 fw-bold">Status</th>

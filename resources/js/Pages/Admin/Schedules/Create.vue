@@ -27,6 +27,25 @@
       </div>
     </div>
 
+    <!-- Schedule Actions -->
+    <div class="card border-0 shadow-sm mb-4" v-if="selectedSectionId">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="mb-1">Weekly Schedule Actions</h5>
+            <p class="text-muted mb-0">Use the button to add schedules for multiple days at once</p>
+          </div>
+          <button
+            @click="showWeeklyScheduleModal()"
+            class="btn btn-success d-flex align-items-center gap-2"
+          >
+            <i class="fas fa-calendar-week"></i>
+            Add Weekly Schedule
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Weekly Schedule Grid -->
     <div class="card border-0 shadow-sm" v-if="selectedSectionId">
       <div class="card-body p-0">
@@ -196,6 +215,119 @@
             <button type="button" @click="saveSchedule" class="btn btn-primary" :disabled="saving">
               <i v-if="saving" class="fas fa-spinner fa-spin me-2"></i>
               {{ saving ? 'Saving...' : (editingSchedule ? 'Update Schedule' : 'Add Schedule') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly Schedule Modal (Multiple Days) -->
+    <div class="modal fade" id="weeklyScheduleModal" tabindex="-1" aria-labelledby="weeklyScheduleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title" id="weeklyScheduleModalLabel">
+              <i class="fas fa-calendar-week me-2"></i>
+              Add Weekly Schedule
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>
+              <strong>Weekly Schedule:</strong> Create schedules for multiple days with the same time slots and subject.
+            </div>
+            <form @submit.prevent="saveWeeklySchedule">
+              <div class="row g-3">
+                <!-- Teacher Selection -->
+                <div class="col-md-6">
+                  <label class="form-label">Teacher <span class="text-danger">*</span></label>
+                  <select v-model="weeklyScheduleForm.teacher_id" class="form-select" required>
+                    <option value="">Select Teacher</option>
+                    <option v-for="teacher in teachers" :key="teacher.id" :value="teacher.id">
+                      {{ getTeacherNameById(teacher.id) }}
+                    </option>
+                  </select>
+                </div>
+
+                <!-- Subject Selection -->
+                <div class="col-md-6">
+                  <label class="form-label">Subject <span class="text-danger">*</span></label>
+                  <select v-model="weeklyScheduleForm.subject_id" class="form-select" required>
+                    <option value="">Select Subject</option>
+                    <option v-for="subject in subjects" :key="subject.id" :value="subject.id">
+                      {{ subject.subject_name }}
+                    </option>
+                  </select>
+                </div>
+
+                <!-- Hidden section input for form submission -->
+                <input v-model="weeklyScheduleForm.section_id" type="hidden">
+
+                <!-- Day Selection -->
+                <div class="col-12">
+                  <label class="form-label">Day Selection <span class="text-danger">*</span></label>
+                  
+                  <!-- Select All Weekdays Option -->
+                  <div class="mb-3">
+                    <div class="form-check">
+                      <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        id="selectAllWeekdaysWeekly"
+                        v-model="selectAllWeekdaysWeekly"
+                        @change="toggleAllWeekdaysWeekly"
+                      >
+                      <label class="form-check-label fw-bold text-success" for="selectAllWeekdaysWeekly">
+                        <i class="fas fa-calendar-week me-2"></i>
+                        Select All Weekdays (Monday - Friday)
+                      </label>
+                      <small class="text-muted d-block">Apply the same time slots to all weekdays for subjects taught consistently throughout the week</small>
+                    </div>
+                  </div>
+
+                  <!-- Individual Day Selection -->
+                  <div>
+                    <label class="form-label small text-muted mb-2">Or select individual days:</label>
+                    <div class="row g-2">
+                      <div class="col-md-2 col-4" v-for="day in daysOfWeek" :key="day.id">
+                        <div class="form-check">
+                          <input 
+                            class="form-check-input" 
+                            type="checkbox" 
+                            :id="'weekly_day_' + day.id"
+                            :value="day.id"
+                            v-model="weeklyScheduleForm.selected_days"
+                            @change="updateWeekdaySelectionWeekly"
+                          >
+                          <label class="form-check-label small" :for="'weekly_day_' + day.id">
+                            {{ day.name }}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Start Time -->
+                <div class="col-md-6">
+                  <label class="form-label">Start Time <span class="text-danger">*</span></label>
+                  <input v-model="weeklyScheduleForm.start_time" type="time" class="form-control" required>
+                </div>
+
+                <!-- End Time -->
+                <div class="col-md-6">
+                  <label class="form-label">End Time <span class="text-danger">*</span></label>
+                  <input v-model="weeklyScheduleForm.end_time" type="time" class="form-control" required>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" @click="saveWeeklySchedule" class="btn btn-success" :disabled="savingWeekly">
+              <i v-if="savingWeekly" class="fas fa-spinner fa-spin me-2"></i>
+              {{ savingWeekly ? 'Creating Schedules...' : 'Create Weekly Schedules' }}
             </button>
           </div>
         </div>

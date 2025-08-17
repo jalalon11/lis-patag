@@ -7,7 +7,7 @@
           <i class="fas fa-layer-group me-3"></i>
           Section Profile
         </h2>
-        <p class="text-muted mb-0">View detailed information about {{ section.grade_level }} - {{ section.section_name }}</p>
+        <p class="text-muted mb-0">View detailed information about {{ section.grade_level_display || section.grade_level }} - {{ section.section_name }}</p>
       </div>
       <div class="col-md-4 text-end">
         <div class="btn-group" role="group">
@@ -31,7 +31,7 @@
             <div class="section-avatar-large bg-white text-primary rounded-circle mx-auto mb-3">
               <i class="fas fa-layer-group"></i>
             </div>
-            <h5 class="mb-1">{{ section.grade_level }} - {{ section.section_name }}</h5>
+            <h5 class="mb-1">{{ section.grade_level_display || section.grade_level }} - {{ section.section_name }}</h5>
             <p class="mb-0 opacity-75">{{ section.school_year?.year_name }}</p>
             <small class="opacity-75" v-if="section.room_number">Room {{ section.room_number }}</small>
           </div>
@@ -136,7 +136,7 @@
                     <div class="info-item mb-3">
                       <label class="fw-bold text-muted small">GRADE LEVEL</label>
                       <div class="mt-1">
-                        <span class="badge bg-primary">{{ section.grade_level }}</span>
+                        <span class="badge bg-primary">{{ section.grade_level_display || section.grade_level }}</span>
                       </div>
                     </div>
                     <div class="info-item mb-3" v-if="section.room_number">

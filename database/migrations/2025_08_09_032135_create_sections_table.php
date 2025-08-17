@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
             $table->string('section_name'); // e.g., "A", "B", "Mabait", "Masipag"
-            $table->string('grade_level');
+            $table->integer('grade_level');
             $table->foreignId('school_year_id')->constrained()->cascadeOnDelete();
             $table->foreignId('adviser_id')->nullable()->constrained('users')->onDelete('set null'); // Teacher as adviser
             $table->integer('capacity')->default(40);

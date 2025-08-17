@@ -357,7 +357,13 @@
                           @change="updateAvailableSections"
                         >
                           <option value="">Select Grade Level</option>
-                          <option v-for="grade in gradeLevels" :key="grade" :value="grade">{{ grade }}</option>
+                          <option value="0">Kindergarten</option>
+                          <option value="1">Grade 1</option>
+                          <option value="2">Grade 2</option>
+                          <option value="3">Grade 3</option>
+                          <option value="4">Grade 4</option>
+                          <option value="5">Grade 5</option>
+                          <option value="6">Grade 6</option>
                         </select>
                         <label for="grade_level" class="form-label">
                           Grade Level <span class="text-danger">*</span>
@@ -545,7 +551,7 @@ export default {
           )
           this.form.reset()
           this.availableSections = []
-          router.visit('/admin/students')
+          router.visit('/admin/enrollment')
         },
         onError: (errors) => {
           const firstError = Object.values(errors)[0]
@@ -557,8 +563,11 @@ export default {
       })
     },
     updateAvailableSections() {
-      if (this.form.grade_level && this.sections[this.form.grade_level]) {
-        this.availableSections = this.sections[this.form.grade_level]
+      // Use the grade_level directly as the key for sections lookup
+      const gradeKey = this.form.grade_level;
+      
+      if (gradeKey && this.sections[gradeKey]) {
+        this.availableSections = this.sections[gradeKey]
       } else {
         this.availableSections = []
       }

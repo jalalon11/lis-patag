@@ -128,7 +128,7 @@
                 </td>
                 <td class="py-3">
                   <div>
-                    <span class="badge bg-primary mb-1">{{ section.grade_level }}</span>
+                    <span class="badge bg-primary mb-1">{{ section.grade_level_display || section.grade_level }}</span>
                     <br>
                     <span v-if="section.room_number" class="badge bg-secondary">
                       <i class="fas fa-door-open me-1"></i>

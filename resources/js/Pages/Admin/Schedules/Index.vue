@@ -28,7 +28,7 @@
               href="/admin/schedules/create"
               class="btn btn-primary"
             >
-              Schedule Settings
+              Manage Schedule
             </Link>
           </div>
         </div>
@@ -172,8 +172,20 @@ export default {
   methods: {
     formatTimeRange(startTime, endTime) {
       if (!startTime || !endTime) return 'N/A';
-      const start = new Date(`1970-01-01T${startTime}:00`);
-      const end = new Date(`1970-01-01T${endTime}:00`);
+      
+      // Handle time strings (HH:MM format) or datetime strings
+      let start, end;
+      
+      if (startTime.includes('T')) {
+        // Full datetime string - these are UTC, convert to Philippine time
+        start = new Date(startTime);
+        end = new Date(endTime);
+      } else {
+        // Time string only (HH:MM format) - these are already local times
+        start = new Date(`1970-01-01T${startTime}:00`);
+        end = new Date(`1970-01-01T${endTime}:00`);
+      }
+      
       const options = { hour: 'numeric', minute: '2-digit', hour12: true };
       return `${start.toLocaleTimeString('en-US', options)} - ${end.toLocaleTimeString('en-US', options)}`;
     },

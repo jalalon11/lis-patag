@@ -252,9 +252,7 @@ public function index(Request $request)
         );
 
         if ($conflict) {
-            return response()->json([
-                'errors' => ['schedule_conflict' => $conflict]
-            ], 422);
+            return redirect()->back()->withErrors(['schedule_conflict' => $conflict])->withInput();
         }
 
         $schedule = Schedule::create([
@@ -265,23 +263,7 @@ public function index(Request $request)
             'end_time' => $validated['end_time']
         ]);
 
-        return response()->json([
-            'success' => 'Schedule created successfully.',
-            'schedule' => [
-                'id' => $schedule->id,
-                'teacher_id' => $teacherSubjectSection->teacher_id,
-                'subject_id' => $teacherSubjectSection->subject_id,
-                'section_id' => $schedule->section_id,
-                'day_of_week' => $schedule->day_of_week,
-                'start_time' => $schedule->start_time,
-                'end_time' => $schedule->end_time,
-                'section' => $schedule->section ? [
-                    'id' => $schedule->section->id,
-                    'grade_level' => $schedule->section->grade_level,
-                    'section_name' => $schedule->section->section_name
-                ] : null
-            ]
-        ]);
+        return redirect()->back()->with('success', 'Schedule created successfully.');
     }
 
     public function edit($id)
@@ -395,9 +377,7 @@ public function index(Request $request)
         );
 
         if ($conflict) {
-            return response()->json([
-                'errors' => ['schedule_conflict' => $conflict]
-            ], 422);
+            return redirect()->back()->withErrors(['schedule_conflict' => $conflict])->withInput();
         }
 
         $schedule->update([
@@ -408,23 +388,7 @@ public function index(Request $request)
             'end_time' => $validated['end_time']
         ]);
 
-        return response()->json([
-            'success' => 'Schedule updated successfully.',
-            'schedule' => [
-                'id' => $schedule->id,
-                'teacher_id' => $teacherSubjectSection->teacher_id,
-                'subject_id' => $teacherSubjectSection->subject_id,
-                'section_id' => $schedule->section_id,
-                'day_of_week' => $schedule->day_of_week,
-                'start_time' => $schedule->start_time,
-                'end_time' => $schedule->end_time,
-                'section' => $schedule->section ? [
-                    'id' => $schedule->section->id,
-                    'grade_level' => $schedule->section->grade_level,
-                    'section_name' => $schedule->section->section_name
-                ] : null
-            ]
-        ]);
+        return redirect()->back()->with('success', 'Schedule updated successfully.');
     }
 
 
@@ -433,9 +397,7 @@ public function index(Request $request)
         $schedule = Schedule::findOrFail($id);
         $schedule->delete();
 
-        return response()->json([
-            'success' => 'Schedule deleted successfully.'
-        ]);
+        return redirect()->back()->with('success', 'Schedule deleted successfully.');
     }
 
     private function checkScheduleConflict($teacherId, $sectionId, $dayOfWeek, $startTime, $endTime, $excludeId = null)

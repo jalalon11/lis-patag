@@ -55,6 +55,26 @@ class Section extends Model
 
     public function getFullNameAttribute(): string
     {
-        return $this->grade_level . ' - ' . $this->section_name;
+        return $this->getGradeLevelDisplayAttribute() . ' - ' . $this->section_name;
+    }
+
+    public function getGradeLevelDisplayAttribute(): string
+    {
+        $gradeMap = [
+            0 => 'Kindergarten',
+            1 => 'Grade 1',
+            2 => 'Grade 2',
+            3 => 'Grade 3',
+            4 => 'Grade 4',
+            5 => 'Grade 5',
+            6 => 'Grade 6'
+        ];
+
+        // Handle both integer and string grade levels
+        if (is_numeric($this->grade_level)) {
+            return $gradeMap[(int)$this->grade_level] ?? 'Unknown';
+        }
+        
+        return $this->grade_level; // Return as-is if already a string
     }
 }

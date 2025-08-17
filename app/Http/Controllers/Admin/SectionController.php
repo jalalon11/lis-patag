@@ -21,6 +21,12 @@ class SectionController extends Controller
             ->orderBy('section_name')
             ->paginate(15);
 
+        // Add grade_level_display to each section
+        $sections->getCollection()->transform(function ($section) {
+            $section->grade_level_display = $section->getGradeLevelDisplayAttribute();
+            return $section;
+        });
+
         return Inertia::render('Admin/Sections/Index', [
             'sections' => $sections
         ]);
@@ -77,8 +83,9 @@ class SectionController extends Controller
      */
     public function show(Section $section)
     {
-        $section->load(['schoolYear', 'adviser', 'enrollments.student']);
-
+        $section->load(['schoolYear', 'adviser.user', 'enrollments.student']);
+        $section->grade_level_display = $section->getGradeLevelDisplayAttribute();
+        
         return Inertia::render('Admin/Sections/Show', [
             'section' => $section
         ]);

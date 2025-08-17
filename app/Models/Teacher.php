@@ -47,9 +47,9 @@ class Teacher extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function teacherSubjectSection()
+    public function teacherSubjectSections()
     {
-        return $this->belongsTo(TeacherSubjectSection::class);
+        return $this->hasMany(TeacherSubjectSection::class);
     }
 
     // Accessor for full name (from related user)
@@ -102,6 +102,13 @@ class Teacher extends Model
      */
     public function schedules()
     {
-        return $this->hasMany(Schedule::class, 'teacher_id');
+        return $this->hasManyThrough(
+            Schedule::class,
+            TeacherSubjectSection::class,
+            'teacher_id', // Foreign key on teacher_subject_sections table
+            'teacher_subject_section_id', // Foreign key on schedules table
+            'id', // Local key on teachers table
+            'id' // Local key on teacher_subject_sections table
+        );
     }
 }

@@ -58,7 +58,11 @@ class User extends Authenticatable
 
     public function schedules()
     {
-        return $this->hasMany(Schedule::class, 'teacher_id');
+        // Get schedules through the teacher relationship
+        if ($this->teacher) {
+            return $this->teacher->schedules();
+        }
+        return Schedule::whereRaw('1 = 0'); // Return empty query if no teacher
     }
 
     // Helper methods

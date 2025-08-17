@@ -43,8 +43,7 @@
 
 <script setup>
 import { reactive } from 'vue';
-import { Inertia } from '@inertiajs/inertia';
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link, router } from '@inertiajs/vue3';
 
 const form = reactive({
     year_name: '',
@@ -58,7 +57,7 @@ const form = reactive({
 const errors = reactive({});
 
 const submit = () => {
-    Inertia.post('/admin/school-years', form, {
+    router.post('/admin/school-years', form, {
         onError: (err) => {
             Object.assign(errors, err);
         },

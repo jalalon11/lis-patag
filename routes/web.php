@@ -57,6 +57,11 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::put('/enrollment/{enrollment}/status', [\App\Http\Controllers\Admin\EnrollmentController::class, 'updateStatus'])->name('enrollment.update-status');
     Route::put('/enrollment/{enrollment}/transfer', [\App\Http\Controllers\Admin\EnrollmentController::class, 'transferSection'])->name('enrollment.transfer-section');
     
+    // Student Management
+    Route::resource('students', \App\Http\Controllers\Admin\StudentController::class);
+    Route::get('/students/{student}/academic-history', [\App\Http\Controllers\Admin\StudentController::class, 'academicHistory'])->name('students.academic-history');
+    Route::put('/students/{student}/status', [\App\Http\Controllers\Admin\StudentController::class, 'updateStatus'])->name('students.update-status');
+    
     //schedules
     Route::resource('schedules', App\Http\Controllers\Admin\ScheduleController::class);
     // Reports
